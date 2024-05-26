@@ -9,9 +9,7 @@ function variable_empty_checker($variable) {
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    $report = htmlspecialchars($_POST["report"]);
-
-    if (empty($report)) {
+    if (!isset($_POST["report"])) {
         if ($_SESSION['role'] == "Teacher") {
             $record = htmlspecialchars($_POST["record"]);
             variable_empty_checker($record);
@@ -25,12 +23,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die();
         }
     } else {
+        $report = htmlspecialchars($_POST["report"]);
         $_SESSION['task'] = $report;
     }
-    header("Location: attend.php");
-    die();
 } else {
-    // header("Location: studentpick.php");
+    header("Location: studentpick.php");
     die("no post");
 }
 ?>
@@ -53,17 +50,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif ( $_SESSION['role'] == "Student"){
             echo("<h2>Welcome ".$_SESSION['name']." from ".$_SESSION['class']."</h2>");
         }
-        echo($_SESSION['task'])
     ?>
     <div>
         <div class="container">
-            <div class="radio-tile-group">
-
+            <form action="subject.php" method="post" class="radio-tile-group">
                 <div class="input-container">
                     <i class="fa-solid fa-plus-minus"></i>
                     <input type="submit" value="Add math" class='radio-tile'>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </body>
