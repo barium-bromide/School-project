@@ -15,7 +15,7 @@ session_start();
     <script src="public/js/login.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-<body>
+<body onload='getData()'>
     <div class="center">
         <div class="loginbox">
             <h1>Key In</h1>
@@ -79,3 +79,27 @@ session_start();
         </div>
     </div>
 </body>
+
+<script type="text/javascript">
+    function getData() {
+        //fetcj data from database, all studentname and class
+        $.ajax({
+            url: 'getData.php',
+            type: 'POST',
+            success: function(data) {
+                var obj = JSON.parse(data);
+                var name = obj.name;
+                var classs = obj.class;
+                var nameList = "";
+                var classList = "";
+                for (var i = 0; i < name.length; i++) {
+                    nameList += "<li>" + name[i] + "</li>";
+                }
+                for (var i = 0; i < classs.length; i++) {
+                    classList += "<li>" + classs[i] + "</li>";
+                }
+                document.getElementById("student-form").innerHTML = "<h2>Name</h2><div class='dropdown'><div class='select'><span class='selected' id='name'>" + name[0] + "</span><div class='caret'></div></div><ul class='menu'>" + nameList + "</ul></div><h2>Class</h2><div class='dropdown'><div class='select'><span class='selected' name='class' id='class'>" + classs[0] + "</span><div class='caret'></div></div><ul class='menu'>" + classList + "</ul></div>";
+            }
+        });
+    }
+</script>

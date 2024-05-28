@@ -8,7 +8,6 @@ const loginForm = document.getElementById("login-form");
 const loginButton = document.getElementById("loginbtn");
 const teacherForm = document.getElementById("teacher-form");
 const studentForm = document.getElementById("student-form");
-
 dropdowns.forEach((dropdown) => {
   const select = dropdown.querySelector(".select");
   const caret = dropdown.querySelector(".caret");
@@ -51,13 +50,21 @@ loginButton.onclick = () => {
       password: PASSWORD.value
     },
     function (data, status) {
-      if (role == "Teacher") {
+      if (role.innerText == "Teacher") {
         if (USERNAME.value == "" || PASSWORD.value == "") {
           alert("Please fill in all the fields");
           return;
         }
+      } else if (role.innerText == "Student") {
+        if (NAMA.innerText == "" || KELAS.innerText == "") {
+          alert("Please fill in all the fields");
+          return;
+        }
+      } else {
+        alert("Please fill in all the fields");
+        return;
       }
-      window.location.href = "studentpick.php";
+      window.location.href = "login_validator.php";
     }
   );
 }
