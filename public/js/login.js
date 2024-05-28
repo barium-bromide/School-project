@@ -73,7 +73,7 @@ dropdowns.forEach((dropdown) => {
 loginButton.onclick = () => {
   $.post("login_validator.php",
     {
-      student_name: NAMA.innerText,
+      student_name: NAMA.value,
       student_class: KELAS.innerText,
       role: JAWATAN.innerText,
       username: USERNAME.value,
@@ -86,7 +86,7 @@ loginButton.onclick = () => {
           return;
         }
       } else if (role.innerText == "Student") {
-        if (NAMA.innerText == "" || KELAS.innerText == "") {
+        if (NAMA.value == "" || KELAS.innerText == "") {
           alert("Please fill in all the fields");
           return;
         }

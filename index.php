@@ -27,22 +27,7 @@ session_start();
             </div>
             <div id="student-form">
                 <h2>Name</h2>
-                <div class="dropdown">
-                    <div class="select">
-                        <span class="selected" id="name">
-                            C
-                        </span>
-                        <div class="caret"></div>
-                    </div>
-                    <ul class="menu">
-                        <li>A</li>
-                        <li>B</li>
-                        <li class="active">C</li>
-                        <li>D</li>
-                        <li>E</li>
-                        <li>F</li>
-                    </ul>
-                </div>
+                <input id="name" type="text" maxlength="15" placeholder="Enter name" required>
                 <h2>Class</h2>
                 <div class="dropdown" id="class-dropdown">
                     <?php
@@ -53,7 +38,7 @@ session_start();
                         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
                         if ($result) {
-                            echo "<div class='select'><span class='selected' name='class' id='class'>Select your class</span><div class='caret'></div></div><ul class='menu'>";
+                            echo "<div class='select'><span class='selected' name='class' id='class'></span><div class='caret'></div></div><ul class='menu'>";
                             foreach ($result as $classname) echo "<li>$classname</li>";
                             echo "</ul>";
                         } else {

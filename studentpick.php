@@ -23,7 +23,7 @@ session_start();
     <h2>Pick A Box</h2>
     <div>
         <div class="container">
-            <form action="attend.php" method="post" class="radio-tile-group">
+            <form action="subject.php" method="post" class="radio-tile-group">
                 <div class="input-container">
                     <input type="submit" value="Attendance Report" name="report" class='radio-tile'>
                 </div>

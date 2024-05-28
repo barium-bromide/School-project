@@ -1,7 +1,35 @@
 <?php
 session_start();
-if (isset($_POST["subject"])) {
-    $_SESSION['subject'] = htmlspecialchars($_POST["subject"]);
+
+function variable_empty_checker($variable) {
+    if (empty($variable)) {
+        header("Location: studentpick.php");
+        die();
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    if (!isset($_POST["report"])) {
+        if ($_SESSION['role'] == "Teacher") {
+            $record = htmlspecialchars($_POST["record"]);
+            variable_empty_checker($record);
+            $_SESSION['task'] = $record;
+        } elseif ($_SESSION['role'] == "Student") {
+            $submit = htmlspecialchars($_POST["submit"]);
+            variable_empty_checker($submit);
+            $_SESSION['task'] = $submit;
+        } else {
+            header("Location: studentpick.php");
+            die();
+        }
+    } else {
+        $report = htmlspecialchars($_POST["report"]);
+        $_SESSION['task'] = $report;
+    }
+} else {
+    header("Location: studentpick.php");
+    die();
 }
 ?>
 
@@ -19,7 +47,6 @@ if (isset($_POST["subject"])) {
     <?php
         if ($_SESSION['role'] == "Teacher") {
             echo("<h2>Cikgu ".$_SESSION['username']);
-            echo("<h2>Subject: ".$_SESSION['subject']."</h2>");
             echo("<h2>Select your class</h2>");
             echo("<div class='dropdown'>");
             echo("<div class='select'>");
@@ -72,7 +99,6 @@ if (isset($_POST["subject"])) {
         } elseif ( $_SESSION['role'] == "Student"){
             echo("<h2> Murid ".$_SESSION['name']."</h2>");
             echo("<h2>Class: ".$_SESSION['class']."</h2>");
-            echo("<h2>Subject: ".$_SESSION['subject']."</h2>");
             if ($_SESSION['task'] == "Submit Attendance") {
                 echo("<h2>Key in the code teacher gave here</h2>");
                 echo("<h2>*This code will record your attendance</h2>");
