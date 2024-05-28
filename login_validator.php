@@ -10,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $_SESSION['role'] = $role;
-    echo($role);
     if ($role == "Student") {
         $name = htmlspecialchars($_POST["student_name"]);
         $class = htmlspecialchars($_POST["student_class"]);

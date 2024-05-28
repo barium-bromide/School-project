@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form action="subject.php" method="post" class="radio-tile-group">
                 <div class="input-container">
                     <i class="fa-solid fa-plus-minus"></i>
-                    <input type="submit" value="Add math" class='radio-tile'>
+                    <input name="subject" type="submit" value="Add math" class='radio-tile'>
                 </div>
             </form>
         </div>
