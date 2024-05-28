@@ -44,8 +44,8 @@ session_start();
                     </ul>
                 </div>
                 <h2>Class</h2>
-                <div class="dropdown">
-                    <div class="select">
+                <div class="dropdown" id="class-dropdown">
+                    <!-- <div class="select">
                         <span class="selected" name="class" id="class">
                             4ST4
                         </span>
@@ -59,7 +59,7 @@ session_start();
                         <li>4ST5</li>
                         <li>4ST6</li>
                         <li>4ST7</li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
             <h2>You are a</h2>
@@ -83,12 +83,12 @@ session_start();
 <script type="text/javascript">
     function getData() {
         $.ajax({
-            url: 'getData.php',
+            url: 'getDataClass.php',
             type: 'POST',
             success: function(data) {
-                alert(data);
-                // var obj = JSON.parse(data);
-                // var name = obj.name;
+                if (data != 'false') {
+                var obj = JSON.parse(data);
+                var name = obj.name;
                 // var classs = obj.class;
                 // var nameList = "";
                 // var classList = "";
@@ -99,6 +99,13 @@ session_start();
                 //     classList += "<li>" + classs[i] + "</li>";
                 // }
                 // document.getElementById("student-form").innerHTML = "<h2>Name</h2><div class='dropdown'><div class='select'><span class='selected' id='name'>" + name[0] + "</span><div class='caret'></div></div><ul class='menu'>" + nameList + "</ul></div><h2>Class</h2><div class='dropdown'><div class='select'><span class='selected' name='class' id='class'>" + classs[0] + "</span><div class='caret'></div></div><ul class='menu'>" + classList + "</ul></div>";
+                } else {
+                    document.getElementById("class-dropdown").innerHTML = `<div class='select'>
+                        <span class='selected' name='class' id='class'>none</span>
+                        <div class="caret"></div>
+                    </div>
+                    <ul class="menu"><li class="active">none</li></ul>`
+                }
             }
         });
     }
