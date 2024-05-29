@@ -80,22 +80,19 @@ loginButton.onclick = () => {
       password: PASSWORD.value
     },
     function (data, status) {
-      if (role.innerText == "Teacher") {
-        if (USERNAME.value == "" || PASSWORD.value == "") {
-          alert("Please fill in all the fields");
-          return;
-        }
-      } else if (role.innerText == "Student") {
-        if (NAMA.value == "" || KELAS.innerText == "") {
-          alert("Please fill in all the fields");
-          return;
+      if (status === "success") {
+        if (data.success) {
+          window.location.href = "studentpick.php";
+        } else {
+          // maybe can use html to display
+          alert(data.message);
         }
       } else {
-        alert("Please fill in all the fields");
-        return;
+        alert("Request failed with status: " + status);
+        window.location.href = "index.php";
       }
-      window.location.href = "studentpick.php";
-    }
+    },
+    "json"
   );
 }
 
