@@ -12,21 +12,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($role == "Student") {
         $name = htmlspecialchars($_POST["student_name"]);
         $class = htmlspecialchars($_POST["student_class"]);
-        if (empty($name) || empty($class)) {
-            callBack(false, "empty name or class");
+        try {
+            require_once 'dbh.inc.php';
+            require_once 'login_model.inc.php';
+            require_once 'login_contr.inc.php';
+
+            if (is_input_empty_student($name, $class)) {
+                callBack(false, "empty name or class");
+            }
+
+            $result = get_student($conn, $name, $class);
+            if (is_username_wrong($result)) {
+                callBack(false, "name or class not found");
+            }
+
+            $_SESSION['name'] = $name;
+            $_SESSION['class'] = $class;
+            callBack(true, "login sucess");
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
         }
-        $_SESSION['name'] = $name;
-        $_SESSION['class'] = $class;
-        callBack(true, "login sucess");
     } elseif ($role == "Teacher") {
         $username = htmlspecialchars($_POST["username"]);
         $password = htmlspecialchars($_POST["password"]);
-        if (empty($username) || empty($password)) {
-            callBack(false, "empty username or password");
+        try {
+            require_once 'dbh.inc.php';
+            require_once 'login_model.inc.php';
+            require_once 'login_contr.inc.php';
+
+            if (is_input_empty($username, $password)) {
+                callBack(false, "empty username or password");
+            }
+
+            $result = get_user($conn, $username);
+            if (is_username_wrong($result)) {
+                callBack(false, "username not found");
+            }
+            if (!is_username_wrong($result) && is_password_wrong($password, $result['password_guru'])) {
+                callBack(false, "wrong password");
+            }
+
+            $_SESSION['username'] = $username;
+            $_SESSION['password'] = $password;
+            callBack(true, "login sucess");
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
         }
-        $_SESSION['username'] = $username;
-        $_SESSION['password'] = $password;
-        callBack(true, "login sucess");
     }
     callBack(false, "end of condition");
 } else {
