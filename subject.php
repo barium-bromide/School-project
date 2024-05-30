@@ -47,25 +47,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
         if ($_SESSION['role'] == "Teacher") {
             echo("<h2>Cikgu ".$_SESSION['username']);
-            echo("<h2>Select your class</h2>");
-            echo("<div class='dropdown'>");
-            echo("<div class='select'>");
-            echo("<span class='selected'>4ST4</span>");
-            echo("<div class='caret'></div>");
-            echo("</div>");
-            echo("<ul class='menu'>");
-            echo("<li>4ST1</li>");
-            echo("<li>4ST2</li>");
-            echo("<li>4ST3</li>");
-            echo("<li class='active'>4ST4</li>");
-            echo("<li>4ST5</li>");
-            echo("<li>4ST6</li>");
-            echo("<li>4ST7</li>");
-            echo("</ul>");
-            echo("</div>");
-            echo("<form action='subject.php' method=\"post\">");
+            echo("<form action='subject.php' method='post'>");
+            echo("<label for='attendance-class'>Select your class: </label>");
+            echo("<select class='dropdown' id='attendance-class' name='attendance-class'>");
+            include 'dbh.inc.php';
+            $query = "SELECT DISTINCT nama_kelas FROM kelas";
+            $stmt = $conn->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result) {         
+                foreach ($result as $classname) echo "<option>$classname</option>";
+            }
+            echo("</select>");
+            echo("<br>");
             echo("<label for='date'>Date:</label>");
             echo("<input type='date' id='date' name='date'>");
+            echo("<br>");
             echo("<input type='submit' id='date-submit' value='Confirm'>");
             echo("</form>");
             echo("<table>");
@@ -77,20 +75,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo("<th>Attendance</th>");
             echo("<th>Edit</th>");
             echo("</tr>");
-            echo("<tr>");
-            echo("<td data-cell='name'>John</td>");
-            echo("<td data-cell='time'>23:59:59</td>");
-            echo("<td data-cell='date'>24/12/2023</td>");
-            echo("<td data-cell='attendance'><div><span class='yes'>✔</span><span class='no'>X</span></div></td>");
-            echo("<td data-cell='edit'><a href='url'>Edit</a></td>");
-            echo("</tr>");
-            echo("<tr>");
-            echo("<td data-cell='name'>Baba</td>");
-            echo("<td data-cell='time'>23:59:59</td>");
-            echo("<td data-cell='date'>25/12/2023</td>");
-            echo("<td data-cell='attendance'><div><span class='yes'>✔</span><span class='no'>X</span></div></td>");
-            echo("<td data-cell='edit'><a href='url'>Edit</a></td>");
-            echo("</tr>");
+            try {
+                require_once 'dbh.inc.php';
+                require_once 'attendance_report_model.inc.php';
+                $result = get_kehadiran_by_class($conn, "");
+                if ($result) {
+                    foreach ($result as $row) {
+                        $dt = new DateTime($row['masa_hadir']);
+                        $masas = $dt ->format("H:i:s");
+                        $tarikh = $dt ->format("d/m/Y");
+                        echo("<td>".$row['nama_murid']."</td>");
+                        echo("<td data-cell='time'>".$masas."</td>");
+                        echo("<td data-cell='date'>".$tarikh."</td>");
+                        if ($row['ada_hadir'] == 1) {
+                            echo("<td data-cell='attendance'><div><span class='yes'>✔</span><span class='neutral'>X</span></div></td>");
+                        } else {
+                            echo("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
+                        }
+                        echo("<td data-cell='edit'><a href='url'>Edit</a></td>");
+                }
+            }
+            } catch (PDOException $e) {
+                die("Query failed: " . $e->getMessage());
+            }
             echo("</table>");
             echo("<div class='link-wrapper'>");
             echo("<p>Add</p>");
@@ -103,8 +110,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo("<h2>Key in the code teacher gave here</h2>");
                 echo("<h2>*This code will record your attendance</h2>");
                 echo("<div class='code'>");
-                echo("<input type='text' maxlength='15' name='name' placeholder='Enter code' required>");
+                echo("<form action='kod.php' method='post'>");
+                echo("<input type='text' maxlength='15' name='code' placeholder='Enter code' required>");
                 echo("<input type='submit' id='submitbtn' value='Submit'>");
+                echo("</form>");
                 echo("</div>");
             } elseif ($_SESSION['task'] == "Attendance Report") {
                 echo("<table>");
@@ -115,14 +124,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo("<th>Attendance</th>");
                 echo("</tr>");
                 echo("<tr>");
-                echo("<td data-cell='time'>23:59:59</td>");
-                echo("<td data-cell='date'>24/12/2023</td>");
-                echo("<td data-cell='attendance'><div><span class='yes'>✔</span><span class='no'>X</span></div></td>");
-                echo("</tr>");
-                echo("<tr>");
-                echo("<td data-cell='time'>23:59:59</td>");
-                echo("<td data-cell='date'>25/12/2023</td>");
-                echo("<td data-cell='attendance'><div><span class='yes'>✔</span><span class='no'>X</span></div></td>");
+                try {
+                    require_once 'dbh.inc.php';
+                    require_once 'attendance_report_model.inc.php';
+                    $result = get_kehadiran($conn, $_SESSION['name']);
+                    if ($result) {
+                        foreach ($result as $row) {
+                            $dt = new DateTime($row['masa_hadir']);
+                            $masas = $dt ->format("H:i:s");
+                            $tarikh = $dt ->format("d/m/Y");
+                            echo("<td data-cell='time'>".$masas."</td>");
+                            echo("<td data-cell='date'>".$tarikh."</td>");
+                            if ($row['ada_hadir'] == 1) {
+                                echo("<td data-cell='attendance'><div><span class='yes'>✔</span><span class='neutral'>X</span></div></td>");
+                            } else {
+                                echo("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
+                            }
+                    }
+                }
+                } catch (PDOException $e) {
+                    die("Query failed: " . $e->getMessage());
+                }
                 echo("</tr>");
                 echo("</table>");
             }

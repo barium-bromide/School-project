@@ -273,6 +273,12 @@ form {
 
 .no {
     padding: 1rem;
+    color: white;
+    background-color: red;
+}
+
+.neutral {
+    padding: 1rem;
     color: black;
     background-color: white;
 }
