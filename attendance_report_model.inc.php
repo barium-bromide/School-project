@@ -11,10 +11,12 @@ function get_kehadiran(object $pdo, string $name) {
     return $result;
 }
 
-function get_kehadiran_by_class(object $pdo, string $class) {
-    $query = "SELECT murid.nama_murid, kehadiran.ada_hadir, kehadiran.masa_hadir FROM murid JOIN kelas ON murid.id_kelas = kelas.id_kelas JOIN kehadiran ON murid.id_murid = kehadiran.id_murid WHERE kelas.nama_kelas = :class";
+function get_kehadiran_by_class(object $pdo, string $class, string $date) {
+    //get kehadiran of all students in a class base on date but not time
+    $query = "SELECT murid.nama_murid, kehadiran.masa_hadir, kehadiran.ada_hadir FROM kehadiran JOIN murid ON kehadiran.id_murid = murid.id_murid JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE kelas.nama_kelas = :class AND DATE(kehadiran.masa_hadir) = :date";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':class', $class);
+    $stmt->bindParam(':date', $date);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;

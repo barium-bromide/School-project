@@ -28,8 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['task'] = $report;
     }
 } else {
-    header("Location: studentpick.php");
-    die();
+    if (!isset($_SESSION['attendance-date']) || !isset($_SESSION['attendance-class'])) {
+        header("Location: studentpick.php");
+        die();
+    }
 }
 ?>
 
@@ -47,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
         if ($_SESSION['role'] == "Teacher") {
             echo("<h2>Cikgu ".$_SESSION['username']);
-            echo("<form action='subject.php' method='post'>");
+            echo("<form action='fetch-student-attendance.php' method='post'>");
             echo("<label for='attendance-class'>Select your class: </label>");
             echo("<select class='dropdown' id='attendance-class' name='attendance-class'>");
             include 'dbh.inc.php';
@@ -62,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo("</select>");
             echo("<br>");
             echo("<label for='date'>Date:</label>");
-            echo("<input type='date' id='date' name='date'>");
+            echo("<input type='date' id='date' name='attendance-date'>");
             echo("<br>");
             echo("<input type='submit' id='date-submit' value='Confirm'>");
             echo("</form>");
@@ -78,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 require_once 'dbh.inc.php';
                 require_once 'attendance_report_model.inc.php';
-                $result = get_kehadiran_by_class($conn, "");
+                $result = get_kehadiran_by_class($conn, $_SESSION['attendance-class'], $_SESSION['attendance-date']);
                 if ($result) {
                     foreach ($result as $row) {
                         $dt = new DateTime($row['masa_hadir']);
@@ -92,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         } else {
                             echo("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
                         }
-                        echo("<td data-cell='edit'><a href='url'>Edit</a></td>");
+                        echo("<td data-cell='edit'><a href='edit.php'>Edit</a></td>");
                 }
             }
             } catch (PDOException $e) {
