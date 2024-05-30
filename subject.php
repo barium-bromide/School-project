@@ -128,6 +128,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     ?>
+    <form action="back.php" method="post">
+        <input type='submit' id='date-submit' value='Go back'>
+    </form>
     <!-- <div class="dropdown">
         <div class="select">
             <span class="selected">

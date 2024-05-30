@@ -38,6 +38,11 @@ session_start();
                     ?>
                 </div>
             </form>
+            <form action="logout.php" method="post" class="radio-tile-group">
+                <div class="input-container">
+                    <input type="submit" value="Logout" name="logout" class='radio-tile'>
+                </div>
+            </form>
         </div>
     </div>
 </body>
