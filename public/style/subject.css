@@ -282,3 +282,20 @@ form {
     color: black;
     background-color: white;
 }
+
+.fake-link {
+    background: none;
+    border: none;
+    color: rgb(0, 110, 255);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 1.5rem;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:hover {
+        color: rgb(0, 160, 255);
+    }
+}

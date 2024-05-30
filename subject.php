@@ -3,29 +3,56 @@ session_start();
 
 function variable_empty_checker($variable) {
     if (empty($variable)) {
-        header("Location: studentpick.php");
-        die();
+        // header("Location: studentpick.php");
+        die("o");
     }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    if (!isset($_POST["report"])) {
-        if ($_SESSION['role'] == "Teacher") {
-            $record = htmlspecialchars($_POST["record"]);
-            variable_empty_checker($record);
-            $_SESSION['task'] = $record;
-        } elseif ($_SESSION['role'] == "Student") {
-            $submit = htmlspecialchars($_POST["submit"]);
-            variable_empty_checker($submit);
-            $_SESSION['task'] = $submit;
-        } else {
-            header("Location: studentpick.php");
+    if (isset($_POST["edit"])) {
+        $edit = htmlspecialchars($_POST["edit"]);
+        if ($edit != "yes" && $edit != "no") {
+            header("Location: edit.php");
             die();
         }
+        try {
+            require_once 'dbh.inc.php';
+            require_once 'attendance_report_model.inc.php';
+            $dataToSql = $_SESSION['data-to-edit'];
+            if (empty($dataToSql)) {
+                header("Location: studentpick.php");
+                die();
+            }
+            $data = explode("#", $dataToSql);
+            $name = $data[0];
+            $date = $data[1];
+            if ($edit == "yes") {
+                $edit = 1;
+            } else {
+                $edit = 0;
+            }
+            edit_kehadiran_by_name_and_date($conn, $name, $date, $edit);
+            // header("Location: subject.php");
+            // die();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+        
     } else {
-        $report = htmlspecialchars($_POST["report"]);
-        $_SESSION['task'] = $report;
+        if (!isset($_POST["report"])) {
+            if ($_SESSION['role'] == "Teacher") {
+                $record = htmlspecialchars($_POST["record"]);
+                variable_empty_checker($record);
+                $_SESSION['task'] = $record;
+            } elseif ($_SESSION['role'] == "Student") {
+                $submit = htmlspecialchars($_POST["submit"]);
+                variable_empty_checker($submit);
+                $_SESSION['task'] = $submit;
+            }
+        } else {
+            $report = htmlspecialchars($_POST["report"]);
+            $_SESSION['task'] = $report;
+        }
     }
 } else {
     if (!isset($_SESSION['attendance-date']) || !isset($_SESSION['attendance-class'])) {
@@ -80,12 +107,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 require_once 'dbh.inc.php';
                 require_once 'attendance_report_model.inc.php';
-                $result = get_kehadiran_by_class($conn, $_SESSION['attendance-class'], $_SESSION['attendance-date']);
+                $attendanceClass = isset($_SESSION['attendance-class']) ? $_SESSION['attendance-class'] : "";
+                $attendanceDate = isset($_SESSION['attendance-date']) ? $_SESSION['attendance-date'] : "";
+                $result = get_kehadiran_by_class($conn, $attendanceClass, $attendanceDate);
                 if ($result) {
                     foreach ($result as $row) {
                         $dt = new DateTime($row['masa_hadir']);
                         $masas = $dt ->format("H:i:s");
                         $tarikh = $dt ->format("d/m/Y");
+                        $tarikhSQL = $dt ->format("Y-m-d");
                         echo("<td>".$row['nama_murid']."</td>");
                         echo("<td data-cell='time'>".$masas."</td>");
                         echo("<td data-cell='date'>".$tarikh."</td>");
@@ -94,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         } else {
                             echo("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
                         }
-                        echo("<td data-cell='edit'><a href='edit.php'>Edit</a></td>");
+                        echo("<td data-cell='edit'><form action='edit.php' method='post'><input type='hidden' name='data-to-edit' value=".$row['nama_murid']."#".$tarikhSQL."><input type='submit' value='Edit' class='fake-link'></form></td>");
                 }
             }
             } catch (PDOException $e) {

@@ -21,3 +21,12 @@ function get_kehadiran_by_class(object $pdo, string $class, string $date) {
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
+
+function edit_kehadiran_by_name_and_date(object $pdo, string $name, string $date, int $attendance) {
+    $query = "UPDATE kehadiran SET ada_hadir = :attendance WHERE id_murid = (SELECT id_murid FROM murid WHERE nama_murid = :name) AND DATE(masa_hadir) = :date";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':date', $date);
+    $stmt->bindParam(':attendance', $attendance);
+    $stmt->execute();
+}
