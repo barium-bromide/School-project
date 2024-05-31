@@ -44,6 +44,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
+    } elseif (isset($_POST["more-name"]) && isset($_POST["more-attendance"]) && isset($_POST["more-attendance-time"]) && isset($_POST["more-class"])) {
+        $moreName = htmlspecialchars($_POST["more-name"]);
+        $moreAttendance = htmlspecialchars($_POST["more-attendance"]);
+        $moreAttendanceTime = htmlspecialchars($_POST["more-attendance-time"]);
+        $moreClass = htmlspecialchars($_POST["more-class"]);
+        if (empty($moreName) || empty($moreAttendance) || empty($moreAttendanceTime || empty($moreClass))) {
+            header("Location: more.php");
+            die();
+        }
+        if ($moreAttendance != "yes" && $moreAttendance != "no") {
+            header("Location: more.php");
+            die();
+        }
+        try {
+            require_once 'dbh.inc.php';
+            require_once 'attendance_report_model.inc.php';
+            $result = get_student($conn, $moreName, $moreClass);
+            if ($result) {
+                $moreDate = date("Y-m-d", strtotime($moreAttendanceTime));
+                $result2 = get_kehadiran_by_class_and_name($conn, $moreClass, $moreName, $moreDate);
+                if ($result2 == false) {
+                    if ($moreAttendance == "yes") {
+                        $moreAttendance = 1;
+                    } else {
+                        $moreAttendance = 0;
+                    }
+                    insert_kehadiran_of_added($conn, $moreName, $moreAttendanceTime, $moreAttendance);
+                } else {
+                    die("attendance already exist");
+                }
+            } else {
+                die("student dont exist");
+            }
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
     } else {
         if (!isset($_POST["report"])) {
             if ($_SESSION['role'] == "Teacher") {
@@ -120,6 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $result = get_kehadiran_by_class($conn, $attendanceClass, $attendanceDate);
             if ($result) {
                 foreach ($result as $row) {
+                    echo ("<tr>");
                     $dt = new DateTime($row['masa_hadir']);
                     $masa = $dt->format("H:i:s");
                     $tarikh = $dt->format("d/m/Y");
@@ -133,6 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         echo ("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
                     }
                     echo ("<td data-cell='edit'><form action='edit.php' method='post'><input type='hidden' name='data-to-edit' value=" . $row['nama_murid'] . "#" . $tarikhSQL . "><input type='submit' value='Edit' class='fake-link'></form></td>");
+                    echo ("</tr>");
                 }
             }
         } catch (PDOException $e) {
@@ -141,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo ("</table>");
         echo ("<div class='link-wrapper'>");
         echo ("<p>Add</p>");
-        echo ("<a href='url'>More</a>");
+        echo ("<a href='more.php'>More</a>");
         echo ("</div>");
     } elseif ($_SESSION['role'] == "Student") {
         echo ("<h2> Murid " . $_SESSION['name'] . "</h2>");
@@ -163,13 +201,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo ("<th>Date</th>");
             echo ("<th>Attendance</th>");
             echo ("</tr>");
-            echo ("<tr>");
             try {
                 require_once 'dbh.inc.php';
                 require_once 'attendance_report_model.inc.php';
                 $result = get_kehadiran($conn, $_SESSION['name']);
                 if ($result) {
                     foreach ($result as $row) {
+                        echo ("<tr>");
                         $dt = new DateTime($row['masa_hadir']);
                         $masa = $dt->format("H:i:s");
                         $tarikh = $dt->format("d/m/Y");
@@ -180,12 +218,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         } else {
                             echo ("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
                         }
+                        echo ("</tr>");
                     }
                 }
             } catch (PDOException $e) {
                 die("Query failed: " . $e->getMessage());
             }
-            echo ("</tr>");
+
             echo ("</table>");
         }
     }

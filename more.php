@@ -1,16 +1,3 @@
-<?php
-session_start();
-
-if (isset($_POST['data-to-edit'])) {
-    $dataToEdit = htmlspecialchars($_POST['data-to-edit']);
-    $_SESSION['data-to-edit'] = $dataToEdit;
-}
-if (empty($_SESSION['data-to-edit'])) {
-    header("Location: studentpick.php");
-    die();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,13 +14,16 @@ if (empty($_SESSION['data-to-edit'])) {
 <body>
     <div class="center">
         <form action="subject.php" method="post" class="loginbox">
-            <h1>Edit</h1>
+            <h1>Add more</h1>
             <div id="teacher-form">
+                <h2>Student's name</h2>
+                <input id="username" name="more-name" type="text" maxlength="15" placeholder="Key in the student's name" required>
+                <h2>Student's class</h2>
+                <input id="username" name="more-class" type="text" maxlength="15" placeholder="Key in the student's name" required>
+                <h2>Student's attendance time</h2>
+                <input type='datetime-local' id='date' name='more-attendance-time'>
                 <h2>Student's attendance</h2>
-                <?php
-                echo "<input name='data-to-sql' type='hidden' value=" . $_SESSION['data-to-edit'] . ">"
-                ?>
-                <input id="username" name="edit" type="text" maxlength="3" placeholder="Key in yes or no" required>
+                <input id="username" name="more-attendance" type="text" maxlength="3" placeholder="Key in yes or no" required>
             </div>
             <input type="submit" id="loginbtn" value="Save">
         </form>
