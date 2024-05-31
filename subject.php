@@ -172,8 +172,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             } else {
                                 echo("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
                             }
+                        }
                     }
-                }
                 } catch (PDOException $e) {
                     die("Query failed: " . $e->getMessage());
                 }
@@ -250,3 +250,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div> -->
     <!-- <input type="submit" id="save" value="Save"> -->
 </body>
+</html>
