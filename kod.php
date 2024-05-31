@@ -49,25 +49,26 @@ function get_code($pdo)
     }
 }
 
-$code = htmlspecialchars($_POST["code"]);
-
-if (empty($code)) {
-    die("empty code");
-}
-if ($_SESSION['role'] != "Student") {
-    die("you are not a student");
-}
-if (!isset($_SESSION['name']) || !isset($_SESSION['class'])) {
-    die("name and class not set");
-}
-try {
-    require_once 'dbh.inc.php';
-    if (!($code == get_code($conn))) {
-        die("wrong code");
+if (isset($_POST['code'])) {
+    $code = htmlspecialchars($_POST["code"]);
+    if (empty($code)) {
+        die("empty code");
     }
-    insert_kehadiran($conn, $_SESSION['name']);
-    header("Location: studentpick.php");
-    die();
-} catch (PDOException $e) {
-    die("Query failed: " . $e->getMessage());
+    if ($_SESSION['role'] != "Student") {
+        die("you are not a student");
+    }
+    if (!isset($_SESSION['name']) || !isset($_SESSION['class'])) {
+        die("name and class not set");
+    }
+    try {
+        require_once 'dbh.inc.php';
+        if (!($code == get_code($conn))) {
+            die("wrong code");
+        }
+        insert_kehadiran($conn, $_SESSION['name']);
+        header("Location: studentpick.php");
+        die();
+    } catch (PDOException $e) {
+        die("Query failed: " . $e->getMessage());
+    }
 }

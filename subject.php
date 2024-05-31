@@ -1,5 +1,11 @@
 <?php
-session_start();
+try {
+    require_once 'dbh.inc.php';
+    require_once 'kod.php';
+    get_code($conn);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
 
 function variable_empty_checker($variable)
 {
