@@ -6,6 +6,7 @@ session_start();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,6 +16,7 @@ session_start();
     <script src="public/js/login.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+
 <body>
     <div class="center">
         <div class="loginbox">
@@ -31,20 +33,20 @@ session_start();
                 <h2>Class</h2>
                 <div class="dropdown" id="class-dropdown">
                     <?php
-                        include 'dbh.inc.php';
-                        $query = "SELECT DISTINCT nama_kelas FROM kelas";
-                        $stmt = $conn->prepare($query);
-                        $stmt->execute();
-                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                    include 'dbh.inc.php';
+                    $query = "SELECT DISTINCT nama_kelas FROM kelas";
+                    $stmt = $conn->prepare($query);
+                    $stmt->execute();
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                        if ($result) {
-                            echo "<div class='select'><span class='selected' name='class' id='class'></span><div class='caret'></div></div><ul class='menu'>";
-                            foreach ($result as $classname) echo "<li>$classname</li>";
-                            echo "</ul>";
-                        } else {
-                            echo "<div class='select'><span class='selected' name='class' id='class'>None</span><div class='caret'></div></div><ul class='menu'></ul>";
-                        }
-                        
+                    if ($result) {
+                        echo "<div class='select'><span class='selected' name='class' id='class'></span><div class='caret'></div></div><ul class='menu'>";
+                        foreach ($result as $classname) echo "<li>$classname</li>";
+                        echo "</ul>";
+                    } else {
+                        echo "<div class='select'><span class='selected' name='class' id='class'>None</span><div class='caret'></div></div><ul class='menu'></ul>";
+                    }
+
                     ?>
                     <!-- <div class="select">
                         <span class="selected" name="class" id="class">
@@ -65,19 +67,20 @@ session_start();
             </div>
             <h2>You are a</h2>
             <div class="dropdown">
-                    <div class="select">
-                        <span class="selected" name="role" id="role">
-                            Student
-                        </span>
-                        <div class="caret"></div>
-                    </div>
-                    <ul class="short menu">
-                        <li>Teacher</li>
-                        <li class="active">Student</li>
-                    </ul>
+                <div class="select">
+                    <span class="selected" name="role" id="role">
+                        Student
+                    </span>
+                    <div class="caret"></div>
                 </div>
+                <ul class="short menu">
+                    <li>Teacher</li>
+                    <li class="active">Student</li>
+                </ul>
+            </div>
             <input type="submit" id="loginbtn" value="Submit">
         </div>
     </div>
 </body>
+
 </html>

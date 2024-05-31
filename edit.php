@@ -13,6 +13,7 @@ if (empty($_SESSION['data-to-edit'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,6 +23,7 @@ if (empty($_SESSION['data-to-edit'])) {
     <script src="public/js/login.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+
 <body>
     <div class="center">
         <form action="subject.php" method="post" class="loginbox">
@@ -29,7 +31,7 @@ if (empty($_SESSION['data-to-edit'])) {
             <div id="teacher-form">
                 <h2>Attendance</h2>
                 <?php
-                 echo "<input name='data-to-sql' type='hidden' value=".$_SESSION['data-to-edit'].">"
+                echo "<input name='data-to-sql' type='hidden' value=" . $_SESSION['data-to-edit'] . ">"
                 ?>
                 <input id="username" name="edit" type="text" maxlength="3" placeholder="Key in yes or no" required>
             </div>
