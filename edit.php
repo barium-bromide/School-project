@@ -1,5 +1,14 @@
 <?php
 session_start();
+
+if (isset($_POST['data-to-edit'])) {
+    $dataToEdit = htmlspecialchars($_POST['data-to-edit']);
+    $_SESSION['data-to-edit'] = $dataToEdit;
+}
+if (empty($_SESSION['data-to-edit'])) {
+    header("Location: studentpick.php");
+    die();
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,16 +26,6 @@ session_start();
     <div class="center">
         <form action="subject.php" method="post" class="loginbox">
             <h1>Edit</h1>
-            <?php
-            if (isset($_POST['data-to-edit'])) {
-                $dataToEdit = htmlspecialchars($_POST['data-to-edit']);
-                $_SESSION['data-to-edit'] = $dataToEdit;
-            }
-            if (empty($_SESSION['data-to-edit'])) {
-                header("Location: studentpick.php");
-                die();
-            }
-            ?>
             <div id="teacher-form">
                 <h2>Attendance</h2>
                 <?php

@@ -3,8 +3,8 @@ session_start();
 
 function variable_empty_checker($variable) {
     if (empty($variable)) {
-        // header("Location: studentpick.php");
-        die("o");
+        header("Location: studentpick.php");
+        die();
     }
 }
 
@@ -113,11 +113,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($result) {
                     foreach ($result as $row) {
                         $dt = new DateTime($row['masa_hadir']);
-                        $masas = $dt ->format("H:i:s");
+                        $masa = $dt ->format("H:i:s");
                         $tarikh = $dt ->format("d/m/Y");
                         $tarikhSQL = $dt ->format("Y-m-d");
                         echo("<td>".$row['nama_murid']."</td>");
-                        echo("<td data-cell='time'>".$masas."</td>");
+                        echo("<td data-cell='time'>".$masa."</td>");
                         echo("<td data-cell='date'>".$tarikh."</td>");
                         if ($row['ada_hadir'] == 1) {
                             echo("<td data-cell='attendance'><div><span class='yes'>✔</span><span class='neutral'>X</span></div></td>");
@@ -163,9 +163,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($result) {
                         foreach ($result as $row) {
                             $dt = new DateTime($row['masa_hadir']);
-                            $masas = $dt ->format("H:i:s");
+                            $masa = $dt ->format("H:i:s");
                             $tarikh = $dt ->format("d/m/Y");
-                            echo("<td data-cell='time'>".$masas."</td>");
+                            echo("<td data-cell='time'>".$masa."</td>");
                             echo("<td data-cell='date'>".$tarikh."</td>");
                             if ($row['ada_hadir'] == 1) {
                                 echo("<td data-cell='attendance'><div><span class='yes'>✔</span><span class='neutral'>X</span></div></td>");
