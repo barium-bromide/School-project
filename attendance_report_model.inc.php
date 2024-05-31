@@ -30,6 +30,6 @@ function edit_kehadiran_by_name_and_date(object $pdo, string $name, string $date
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':date', $date);
-    $stmt->bindParam(':attendance', $attendance);
+    $stmt->bindParam(':attendance', $attendance, PDO::PARAM_INT);
     $stmt->execute();
 }
