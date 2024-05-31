@@ -28,8 +28,8 @@ session_start();
                 <input id="password" type="password" maxlength="20" placeholder="Enter password" required>
             </div>
             <div id="student-form">
-                <h2>Name</h2>
-                <input id="name" type="text" maxlength="15" placeholder="Enter name" required>
+                <h2>Student's id</h2>
+                <input id="name" type="text" maxlength="15" placeholder="Enter your id" required>
                 <h2>Class</h2>
                 <div class="dropdown" id="class-dropdown">
                     <?php

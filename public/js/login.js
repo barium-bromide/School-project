@@ -1,5 +1,5 @@
 const dropdowns = document.querySelectorAll(".dropdown");
-const NAMA = document.getElementById("name");
+const ID_MURID = document.getElementById("name");
 const KELAS = document.getElementById("class");
 const JAWATAN = document.getElementById("role");
 const USERNAME = document.getElementById("username");
@@ -73,7 +73,7 @@ dropdowns.forEach((dropdown) => {
 loginButton.onclick = () => {
   $.post("login_validator.php",
     {
-      student_name: NAMA.value,
+      student_id: ID_MURID.value,
       student_class: KELAS.innerText,
       role: JAWATAN.innerText,
       username: USERNAME.value,

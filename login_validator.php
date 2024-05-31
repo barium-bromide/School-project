@@ -10,23 +10,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $_SESSION['role'] = $role;
     if ($role == "Student") {
-        $name = htmlspecialchars($_POST["student_name"]);
+        $id = htmlspecialchars($_POST["student_id"]);
         $class = htmlspecialchars($_POST["student_class"]);
         try {
             require_once 'dbh.inc.php';
             require_once 'login_model.inc.php';
             require_once 'login_contr.inc.php';
 
-            if (is_input_empty_student($name, $class)) {
+            if (is_input_empty_student($id, $class)) {
                 callBack(false, "empty name or class");
             }
 
-            $result = get_student($conn, $name, $class);
+            $result = get_student($conn, $id, $class);
             if (is_username_wrong($result)) {
                 callBack(false, "name or class not found");
             }
 
-            $_SESSION['name'] = $name;
+            $_SESSION['name'] = $id;
             $_SESSION['class'] = $class;
             callBack(true, "login sucess");
         } catch (PDOException $e) {

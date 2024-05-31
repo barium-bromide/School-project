@@ -12,11 +12,11 @@ function get_user(object $pdo, string $username)
     return $result;
 }
 
-function get_student(object $pdo, string $name, string $class)
+function get_student(object $pdo, int $id, string $class)
 {
-    $query = "SELECT kelas.nama_kelas, murid.nama_murid FROM murid JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE murid.nama_murid = :name AND kelas.nama_kelas = :class";
+    $query = "SELECT * FROM murid WHERE id_murid = :id AND id_kelas = (SELECT id_kelas FROM kelas WHERE nama_kelas = :class)";
     $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->bindParam(':class', $class);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
