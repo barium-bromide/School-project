@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['class'] = $class;
             callBack(true, "login sucess");
         } catch (PDOException $e) {
-            die("Query failed: " . $e->getMessage());
+            callBack(false, "Query failed: " . $e->getMessage());
         }
     } elseif ($role == "Teacher") {
         $username = htmlspecialchars($_POST["username"]);
