@@ -25,8 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (is_username_wrong($result)) {
                 callBack(false, "name or class not found");
             }
-
-            $_SESSION['name'] = $id;
+            $name = get_name_by_id($conn, $id);
+            $_SESSION['name'] = $name['nama_murid'];
             $_SESSION['class'] = $class;
             callBack(true, "login sucess");
         } catch (PDOException $e) {

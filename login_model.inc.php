@@ -22,3 +22,13 @@ function get_student(object $pdo, int $id, string $class)
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
+
+function get_name_by_id(object $pdo, int $id)
+{
+    $query = "SELECT nama_murid FROM murid WHERE id_murid = :id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
