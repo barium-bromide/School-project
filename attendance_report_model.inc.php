@@ -37,7 +37,7 @@ function get_kehadiran_by_class_and_id(object $pdo, string $class, int $id, stri
 
 function edit_kehadiran_by_id_and_date(object $pdo, int $id, string $date, int $attendance)
 {
-    $query = "UPDATE kehadiran SET ada_hadir = :attendance WHERE id_murid = :id AND masa_hadir = :date";
+    $query = "UPDATE kehadiran SET ada_hadir = :attendance WHERE id_murid = :id AND DATE(masa_hadir) = :date";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':attendance', $attendance, PDO::PARAM_INT);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
