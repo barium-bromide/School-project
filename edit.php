@@ -18,7 +18,7 @@ if (empty($_SESSION['data-to-edit'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Form | Edit</title>
+    <title>Kehadiran | Edit</title>
     <link rel="stylesheet" href="public/style/login.css">
     <script src="public/js/login.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
