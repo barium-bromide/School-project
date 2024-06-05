@@ -17,32 +17,32 @@ session_start();
 <body>
     <?php
     if ($_SESSION['role'] == "Teacher") {
-        echo ("<h1>Hello, Cikgu " . $_SESSION['username'] . "</h1>");
+        echo ("<h1>Selamat sejahtera, Cikgu " . $_SESSION['username'] . "</h1>");
     } else {
-        echo ("<h1>Hello, Murid " . $_SESSION['name'] . "</h1>");
+        echo ("<h1>Selamat sejahtera, Murid " . $_SESSION['name'] . "</h1>");
     }
     ?>
-    <h2>Pick A Box</h2>
+    <h2>Pilih satu kotak</h2>
     <div>
         <div class="container">
             <form action="subject.php" method="post" class="radio-tile-group">
                 <div class="input-container">
-                    <input type="submit" value="Attendance Report" name="report" class='radio-tile'>
+                    <input type="submit" value="Laporan kehadiran" name="report" class='radio-tile'>
                 </div>
 
                 <div class="input-container">
                     <?php
                     if ($_SESSION['role'] == "Teacher") {
-                        echo ("<input type='submit' value='Record Attendance' name='record' class='radio-tile'>");
+                        echo ("<input type='submit' value='Rekod kehadiran' name='record' class='radio-tile'>");
                     } elseif ($_SESSION['role'] == "Student") {
-                        echo ("<input type='submit' value='Submit Attendance' name='submit' class='radio-tile'>");
+                        echo ("<input type='submit' value='Hantar kehadiran' name='submit' class='radio-tile'>");
                     }
                     ?>
                 </div>
             </form>
             <form action="logout.php" method="post" class="radio-tile-group">
                 <div class="input-container">
-                    <input type="submit" value="Logout" name="logout" class='radio-tile'>
+                    <input type="submit" value="Daftar keluar" name="logout" class='radio-tile'>
                 </div>
             </form>
         </div>

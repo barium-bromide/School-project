@@ -18,7 +18,7 @@ function variable_empty_checker($variable)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["edit"])) {
         $edit = htmlspecialchars($_POST["edit"]);
-        if ($edit != "yes" && $edit != "no") {
+        if ($edit != "ya" && $edit != "tidak") {
             header("Location: edit.php");
             die();
         }
@@ -31,10 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die();
             }
             $data = explode("#", $dataToSql);
-            echo $data[0];
             $id = $data[0];
             $date = $data[1];
-            if ($edit == "yes") {
+            if ($edit == "ya") {
                 $edit = 1;
             } else {
                 $edit = 0;
@@ -54,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: more.php");
             die();
         }
-        if ($moreAttendance != "yes" && $moreAttendance != "no") {
+        if ($moreAttendance != "ya" && $moreAttendance != "tidak") {
             header("Location: more.php");
             die();
         }
@@ -66,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $moreDate = date("Y-m-d", strtotime($moreAttendanceTime));
                 $result2 = get_kehadiran_by_class_and_id($conn, $moreClass, $moreName, $moreDate);
                 if ($result2 == false) {
-                    if ($moreAttendance == "yes") {
+                    if ($moreAttendance == "ya") {
                         $moreAttendance = 1;
                     } else {
                         $moreAttendance = 0;
@@ -122,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_SESSION['role'] == "Teacher") {
         echo ("<h2>Cikgu " . $_SESSION['username']);
         echo ("<form action='fetch-student-attendance.php' method='post'>");
-        echo ("<label for='attendance-class'>Select your class: </label>");
+        echo ("<label for='attendance-class'>Pilih kelas anda: </label>");
         echo ("<select class='dropdown' id='attendance-class' name='attendance-class'>");
         include 'dbh.inc.php';
         $query = "SELECT DISTINCT nama_kelas FROM kelas";
@@ -135,19 +134,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         echo ("</select>");
         echo ("<br>");
-        echo ("<label for='date'>Date:</label>");
+        echo ("<label for='date'>Tarikh:</label>");
         echo ("<input type='date' id='date' name='attendance-date'>");
         echo ("<br>");
-        echo ("<input type='submit' id='date-submit' value='Confirm'>");
+        echo ("<input type='submit' id='date-submit' value='Kesah''>");
         echo ("</form>");
         echo ("<table>");
-        echo ("<caption>Students' Attendance</caption>");
+        echo ("<caption>Kehadiran murid</caption>");
         echo ("<tr>");
         echo ("<th>Id</th>");
-        echo ("<th>Name</th>");
-        echo ("<th>Time</th>");
-        echo ("<th>Date</th>");
-        echo ("<th>Attendance</th>");
+        echo ("<th>Nama</th>");
+        echo ("<th>Masa</th>");
+        echo ("<th>Tarikh</th>");
+        echo ("<th>Kehadiran</th>");
         echo ("<th>Edit</th>");
         echo ("</tr>");
         try {
@@ -181,28 +180,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         echo ("</table>");
         echo ("<div class='link-wrapper'>");
-        echo ("<p>Add</p>");
-        echo ("<a href='more.php'>More</a>");
+        echo ("<p>Tambah</p>");
+        echo ("<a href='more.php'>Lagi</a>");
         echo ("</div>");
     } elseif ($_SESSION['role'] == "Student") {
         echo ("<h2> Murid " . $_SESSION['name'] . "</h2>");
-        echo ("<h2>Class: " . $_SESSION['class'] . "</h2>");
-        if ($_SESSION['task'] == "Submit Attendance") {
-            echo ("<h2>Key in the code teacher gave here</h2>");
-            echo ("<h2>*This code will record your attendance</h2>");
+        echo ("<h2>Kelas: " . $_SESSION['class'] . "</h2>");
+        if ($_SESSION['task'] == "Hantar kehadiran") {
+            echo ("<h2>Masuk kod diberikan oleh guru kepada anda</h2>");
+            echo ("<h2>*Kod ini akan merekodkan kehadiran anda</h2>");
             echo ("<div class='code'>");
             echo ("<form action='kod.php' method='post'>");
             echo ("<input type='text' maxlength='15' name='code' placeholder='Enter code' required>");
             echo ("<input type='submit' id='submitbtn' value='Submit'>");
             echo ("</form>");
             echo ("</div>");
-        } elseif ($_SESSION['task'] == "Attendance Report") {
+        } elseif ($_SESSION['task'] == "Laporan kehadiran") {
             echo ("<table>");
-            echo ("<caption>Your Attendance</caption>");
+            echo ("<caption>Kehadiran anda</caption>");
             echo ("<tr>");
-            echo ("<th>Time</th>");
-            echo ("<th>Date</th>");
-            echo ("<th>Attendance</th>");
+            echo ("<th>Masa</th>");
+            echo ("<th>Tarikh</th>");
+            echo ("<th>Kehadiran</th>");
             echo ("</tr>");
             try {
                 require_once 'dbh.inc.php';
@@ -233,7 +232,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     ?>
     <form action="back.php" method="post">
-        <input type='submit' id='date-submit' value='Go back'>
+        <input type='submit' id='date-submit' value='Pulang'>
     </form>
     <!-- <div class="dropdown">
         <div class="select">

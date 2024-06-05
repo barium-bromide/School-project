@@ -29,13 +29,13 @@ if (empty($_SESSION['data-to-edit'])) {
         <form action="subject.php" method="post" class="loginbox">
             <h1>Edit</h1>
             <div id="teacher-form">
-                <h2>Student's attendance</h2>
+                <h2>Kehadiran Murid</h2>
                 <?php
                 echo "<input name='data-to-sql' type='hidden' value=" . $_SESSION['data-to-edit'] . ">"
                 ?>
-                <input id="username" name="edit" type="text" maxlength="3" placeholder="Key in yes or no" required>
+                <input id="username" name="edit" type="text" maxlength="5" placeholder="Hantar ya atau tidak" required>
             </div>
-            <input type="submit" id="loginbtn" value="Save">
+            <input type="submit" id="loginbtn" value="Hantar">
         </form>
     </div>
 </body>

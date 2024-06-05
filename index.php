@@ -20,17 +20,17 @@ session_start();
 <body>
     <div class="center">
         <div class="loginbox">
-            <h1>Key In</h1>
+            <h1>Masuk</h1>
             <div id="teacher-form" class="hide">
                 <h2>Username</h2>
                 <input id="username" type="text" maxlength="15" placeholder="Enter username" required>
-                <h2>Password</h2>
+                <h2>Kata Laluan</h2>
                 <input id="password" type="password" maxlength="20" placeholder="Enter password" required>
             </div>
             <div id="student-form">
-                <h2>Student's id</h2>
+                <h2>ID Murid</h2>
                 <input id="name" type="text" maxlength="15" placeholder="Enter your id" required>
-                <h2>Class</h2>
+                <h2>Kelas</h2>
                 <div class="dropdown" id="class-dropdown">
                     <?php
                     include 'dbh.inc.php';
@@ -65,17 +65,17 @@ session_start();
                     </ul> -->
                 </div>
             </div>
-            <h2>You are a</h2>
+            <h2>Anda seorang</h2>
             <div class="dropdown">
                 <div class="select">
                     <span class="selected" name="role" id="role">
-                        Student
+                        Murid
                     </span>
                     <div class="caret"></div>
                 </div>
                 <ul class="short menu">
-                    <li>Teacher</li>
-                    <li class="active">Student</li>
+                    <li>Guru</li>
+                    <li class="active">Murid</li>
                 </ul>
             </div>
             <input type="submit" id="loginbtn" value="Submit">

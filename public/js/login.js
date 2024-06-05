@@ -60,10 +60,10 @@ dropdowns.forEach((dropdown) => {
         option.classList.remove("active");
       });
       option.classList.add("active");
-      if (option.innerText == "Student") {
+      if (option.innerText == "Murid") {
         studentForm.classList.remove("hide")
         teacherForm.classList.add("hide")
-      } else if (option.innerText == "Teacher") {
+      } else if (option.innerText == "Guru") {
         studentForm.classList.add("hide")
         teacherForm.classList.remove("hide")
       }
@@ -75,7 +75,7 @@ loginButton.onclick = () => {
     {
       student_id: ID_MURID.value,
       student_class: KELAS.innerText,
-      role: JAWATAN.innerText,
+      role: JAWATAN.innerText == "Murid" ? "Student" : "Teacher",
       username: USERNAME.value,
       password: PASSWORD.value
     },
