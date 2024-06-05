@@ -31,14 +31,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die();
             }
             $data = explode("#", $dataToSql);
-            $name = $data[0];
+            echo $data[0];
+            $id = $data[0];
             $date = $data[1];
             if ($edit == "yes") {
                 $edit = 1;
             } else {
                 $edit = 0;
             }
-            edit_kehadiran_by_name_and_date($conn, $name, $date, $edit);
+            edit_kehadiran_by_id_and_date($conn, $id, $date, $edit);
             // header("Location: subject.php");
             // die();
         } catch (PDOException $e) {
@@ -63,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $result = get_student($conn, $moreName, $moreClass);
             if ($result) {
                 $moreDate = date("Y-m-d", strtotime($moreAttendanceTime));
-                $result2 = get_kehadiran_by_class_and_name($conn, $moreClass, $moreName, $moreDate);
+                $result2 = get_kehadiran_by_class_and_id($conn, $moreClass, $moreName, $moreDate);
                 if ($result2 == false) {
                     if ($moreAttendance == "yes") {
                         $moreAttendance = 1;
@@ -142,6 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo ("<table>");
         echo ("<caption>Students' Attendance</caption>");
         echo ("<tr>");
+        echo ("<th>Id</th>");
         echo ("<th>Name</th>");
         echo ("<th>Time</th>");
         echo ("<th>Date</th>");
@@ -161,6 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $masa = $dt->format("H:i:s");
                     $tarikh = $dt->format("d/m/Y");
                     $tarikhSQL = $dt->format("Y-m-d");
+                    echo ("<td>" . $row['id_murid'] . "</td>");
                     echo ("<td>" . $row['nama_murid'] . "</td>");
                     echo ("<td data-cell='time'>" . $masa . "</td>");
                     echo ("<td data-cell='date'>" . $tarikh . "</td>");
@@ -169,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     } else {
                         echo ("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
                     }
-                    echo ("<td data-cell='edit'><form action='edit.php' method='post'><input type='hidden' name='data-to-edit' value=" . $row['nama_murid'] . "#" . $tarikhSQL . "><input type='submit' value='Edit' class='fake-link'></form></td>");
+                    echo ("<td data-cell='edit'><form action='edit.php' method='post'><input type='hidden' name='data-to-edit' value=" . $row['id_murid'] . "#" . $tarikhSQL . "><input type='submit' value='Edit' class='fake-link'></form></td>");
                     echo ("</tr>");
                 }
             }
@@ -204,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 require_once 'dbh.inc.php';
                 require_once 'attendance_report_model.inc.php';
-                $result = get_kehadiran($conn, $_SESSION['name']);
+                $result = get_kehadiran($conn, $_SESSION['id']);
                 if ($result) {
                     foreach ($result as $row) {
                         echo ("<tr>");

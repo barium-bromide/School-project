@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $name = get_name_by_id($conn, $id);
             $_SESSION['name'] = $name['nama_murid'];
             $_SESSION['class'] = $class;
+            $_SESSION['id'] = $id;
             callBack(true, "login sucess");
         } catch (PDOException $e) {
             callBack(false, "Query failed: " . $e->getMessage());

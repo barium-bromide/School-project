@@ -16,7 +16,7 @@
         <form action="subject.php" method="post" class="loginbox">
             <h1>Add more</h1>
             <div id="teacher-form">
-                <h2>Student's name</h2>
+                <h2>Student's id</h2>
                 <input id="username" name="more-name" type="text" maxlength="15" placeholder="Key in the student's name" required>
                 <h2>Student's class</h2>
                 <input id="username" name="more-class" type="text" maxlength="15" placeholder="Key in the student's name" required>

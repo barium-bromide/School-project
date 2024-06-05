@@ -1,29 +1,28 @@
 <?php
 session_start();
 
-function insert_kehadiran($pdo, $name)
+function insert_kehadiran($pdo, $id)
 {
-    $query = "INSERT INTO kehadiran (id_murid, masa_hadir, ada_hadir) VALUES ((SELECT id_murid FROM murid WHERE nama_murid = :nama), NOW(), 1)";
+    $query = "INSERT INTO kehadiran (id_murid, masa_hadir, ada_hadir) VALUES (:id, NOW(), 1)";
     $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':nama', $name);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
 }
 
-function update_kehadiran($pdo, $name)
+function update_kehadiran($pdo, $id)
 {
-    //update ada_hadir to 1 and set the time to current time
-    $query = "UPDATE kehadiran SET ada_hadir = 1, masa_hadir = NOW() WHERE id_murid = (SELECT id_murid FROM murid WHERE nama_murid = :nama) AND DATE(masa_hadir) = CURDATE()";
+    $query = "UPDATE kehadiran SET ada_hadir = 1, masa_hadir = NOW() WHERE id_murid = :id AND DATE(masa_hadir) = CURDATE()";
     $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':nama', $name);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
 }
 
-function get_kehadiran_by_class_and_name_and_date(object $pdo, string $class, string $name, string $date)
+function get_kehadiran_by_class_and_id_and_date(object $pdo, string $class, int $id, string $date)
 {
-    $query = "SELECT murid.nama_murid, kehadiran.masa_hadir, kehadiran.ada_hadir FROM kehadiran JOIN murid ON kehadiran.id_murid = murid.id_murid JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE kelas.nama_kelas = :class AND murid.nama_murid = :name AND DATE(kehadiran.masa_hadir) = :date";
+    $query = "SELECT murid.nama_murid, kehadiran.masa_hadir, kehadiran.ada_hadir FROM kehadiran JOIN murid ON kehadiran.id_murid = murid.id_murid JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE kelas.nama_kelas = :class AND murid.id_murid = :id AND DATE(kehadiran.masa_hadir) = :date";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':class', $class);
-    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->bindParam(':date', $date);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -86,13 +85,13 @@ if (isset($_POST['code'])) {
         if (!($code == get_code($conn))) {
             die("wrong code");
         }
-        $result = get_kehadiran_by_class_and_name_and_date($conn, $_SESSION['class'], $_SESSION['name'], date("Y-m-d"));
+        $result = get_kehadiran_by_class_and_id_and_date($conn, $_SESSION['class'], $_SESSION['id'], date("Y-m-d"));
         if ($result) {
-            update_kehadiran($conn, $_SESSION['name']);
+            update_kehadiran($conn, $_SESSION['id']);
             header("Location: studentpick.php");
             die();
         }
-        insert_kehadiran($conn, $_SESSION['name']);
+        insert_kehadiran($conn, $_SESSION['id']);
         header("Location: studentpick.php");
         die();
     } catch (PDOException $e) {
