@@ -72,10 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                     insert_kehadiran_of_added($conn, $moreName, $moreAttendanceTime, $moreAttendance);
                 } else {
-                    die("attendance already exist");
+                    header("Location: more.php");
+                    die();
                 }
             } else {
-                die("student dont exist");
+                header("Location: more.php");
+                die();
             }
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
