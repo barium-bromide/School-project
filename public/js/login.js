@@ -82,7 +82,7 @@ loginButton.onclick = () => {
     function (data, status) {
       if (status === "success") {
         if (data.success) {
-          window.location.href = "studentpick.php";
+          window.location.href = "pickbox.php";
         } else {
           // maybe can use html to display
           alert(data.message);
