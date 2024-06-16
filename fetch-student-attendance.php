@@ -5,9 +5,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $attendanceDate = htmlspecialchars($_POST["attendance-date"]);
     $_SESSION['attendance-class'] = $attendanceClass;
     $_SESSION['attendance-date'] = $attendanceDate;
-    header("Location: subject.php");
+    header("Location: main.php");
     die();
 } else {
-    header("Location: studentpick.php");
+    header("Location: pickbox.php");
     die();
 }

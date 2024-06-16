@@ -6,7 +6,7 @@ if (isset($_POST['data-to-edit'])) {
     $_SESSION['data-to-edit'] = $dataToEdit;
 }
 if (empty($_SESSION['data-to-edit'])) {
-    header("Location: studentpick.php");
+    header("Location: pickbox.php");
     die();
 }
 ?>
@@ -26,7 +26,7 @@ if (empty($_SESSION['data-to-edit'])) {
 
 <body>
     <div class="center">
-        <form action="subject.php" method="post" class="loginbox">
+        <form action="main.php" method="post" class="loginbox">
             <h1>Edit</h1>
             <div id="teacher-form">
                 <h2>Kehadiran Murid</h2>

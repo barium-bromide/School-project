@@ -88,11 +88,11 @@ if (isset($_POST['code'])) {
         $result = get_kehadiran_by_class_and_id_and_date($conn, $_SESSION['class'], $_SESSION['id'], date("Y-m-d"));
         if ($result) {
             update_kehadiran($conn, $_SESSION['id']);
-            header("Location: studentpick.php");
+            header("Location: pickbox.php");
             die();
         }
         insert_kehadiran($conn, $_SESSION['id']);
-        header("Location: studentpick.php");
+        header("Location: pickbox.php");
         die();
     } catch (PDOException $e) {
         die("Query failed: " . $e->getMessage());

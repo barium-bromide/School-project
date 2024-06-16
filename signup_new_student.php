@@ -11,7 +11,7 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kehadiran | Log Masuk</title>
+    <title>Kehadiran | Daftar murid</title>
     <link rel="stylesheet" href="public/style/login.css">
     <script src="public/js/login.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -20,7 +20,7 @@ session_start();
 <body>
     <div class="center">
         <div class="loginbox">
-            <h1>Masuk</h1>
+            <h1>Daftar</h1>
             <div id="teacher-form" class="hide">
                 <h2>Username</h2>
                 <input id="username" type="text" maxlength="15" placeholder="Enter username" required>
@@ -53,7 +53,9 @@ session_start();
             <h2>Anda seorang</h2>
             <div class="dropdown">
                 <div class="select">
-                    <span class="selected" name="role" id="role">Murid</span>
+                    <span class="selected" name="role" id="role">
+                        Murid
+                    </span>
                     <div class="caret"></div>
                 </div>
                 <ul class="short menu">

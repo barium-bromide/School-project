@@ -13,7 +13,7 @@
 
 <body>
     <div class="center">
-        <form action="subject.php" method="post" class="loginbox">
+        <form action="main.php" method="post" class="loginbox">
             <h1>Tambah lagi</h1>
             <div id="teacher-form">
                 <h2>ID Murid</h2>

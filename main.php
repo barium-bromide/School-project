@@ -10,7 +10,7 @@ try {
 function variable_empty_checker($variable)
 {
     if (empty($variable)) {
-        header("Location: studentpick.php");
+        header("Location: pickbox.php");
         die();
     }
 }
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             require_once 'attendance_report_model.inc.php';
             $dataToSql = $_SESSION['data-to-edit'];
             if (empty($dataToSql)) {
-                header("Location: studentpick.php");
+                header("Location: pickbox.php");
                 die();
             }
             $data = explode("#", $dataToSql);
@@ -39,8 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $edit = 0;
             }
             edit_kehadiran_by_id_and_date($conn, $id, $date, $edit);
-            // header("Location: subject.php");
-            // die();
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
@@ -100,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } else {
     if (!isset($_SESSION['attendance-date']) || !isset($_SESSION['attendance-class'])) {
-        header("Location: studentpick.php");
+        header("Location: pickbox.php");
         die();
     }
 }
@@ -122,23 +120,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     if ($_SESSION['role'] == "Teacher") {
         echo ("<h2>Cikgu " . $_SESSION['username']);
-        echo ("<form action='fetch-student-attendance.php' method='post'>");
-        echo ("<label for='attendance-class'>Pilih kelas anda: </label>");
-        echo ("<select class='dropdown' id='attendance-class' name='attendance-class'>");
+        echo ("<form action='fetch-student-attendance.php' method='post'><label for='attendance-class'>Pilih kelas anda: </label><select class='dropdown' id='attendance-class' name='attendance-class'>");
         include 'dbh.inc.php';
         $query = "SELECT DISTINCT nama_kelas FROM kelas";
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($result) {
-            foreach ($result as $classname) echo "<option>$classname</option>";
-        }
-        echo ("</select>");
-        echo ("<br>");
-        echo ("<label for='date'>Tarikh:</label>");
-        echo ("<input type='date' id='date' name='attendance-date'>");
-        echo ("<br>");
+        if ($result) foreach ($result as $classname) echo "<option>$classname</option>";
+
+        echo ("</select><br><label for='date'>Tarikh:</label><input type='date' id='date' name='attendance-date'><br>");
         echo ("<input type='submit' id='date-submit' value='Kesah''>");
         echo ("</form>");
         echo ("<table>");
@@ -236,70 +227,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="back.php" method="post">
         <input type='submit' id='date-submit' value='Pulang'>
     </form>
-    <!-- <div class="dropdown">
-        <div class="select">
-            <span class="selected">
-                4ST4
-            </span>
-            <div class="caret"></div>
-        </div>
-        <ul class="menu">
-            <li>4ST1</li>
-            <li>4ST2</li>
-            <li>4ST3</li>
-            <li class="active">4ST4</li>
-            <li>4ST5</li>
-            <li>4ST6</li>
-            <li>4ST7</li>
-        </ul>
-    </div> -->
-    <!-- <form action="">
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date">
-        <input type="submit" id="date-submit" value="Confirm">
-    </form> -->
-    <!-- <h2>Your Attendance Rate</h2>
-        <div class="bar">
-            <p>90%</p>
-            <span class="percentage-bar"></span>
-        </div> -->
-    <!-- table | class | time | date | attendance | (Edit) -->
-    <!-- <div class="table-container">
-            <table>
-                <caption>
-                    Your Attendance
-                </caption>
-                <tr> -->
-    <!-- <th>Name</th> -->
-    <!-- <th>Time</th>
-                    <th>Date</th>
-                    <th>Attendance</th> -->
-    <!-- <th>Attendance Rate</th> -->
-    <!-- <th>Edit</th> -->
-    <!-- </tr>
-                <tr> -->
-    <!-- <td>John</td> -->
-    <!-- <td data-cell="time">23:59:59</td>
-                    <td data-cell="date">24/12/2023</td>
-                    <td data-cell="attendance"><div><span class="yes">✔</span><span class="no">X</span></div></td> -->
-    <!-- <td data-cell="attendance rate">80%</td>
-                    <td data-cell="edit"><a href="url">Edit</a></td> -->
-    <!-- </tr>
-                <tr> -->
-    <!-- <td>Baba</td> -->
-    <!-- <td data-cell="time">23:59:59</td>
-                    <td data-cell="date">25/12/2023</td>
-                    <td data-cell="attendance"><div><span class="yes">✔</span><span class="no">X</span></div></td> -->
-    <!-- <td data-cell="attendance rate">100%</td>
-                    <td data-cell="edit"><a href="url">Edit</a></td> -->
-    <!-- </tr>
-            </table>
-    </div> -->
-    <!-- <div class="link-wrapper">
-        <p>Add</p>
-        <a href="url">More</a>
-    </div> -->
-    <!-- <input type="submit" id="save" value="Save"> -->
 </body>
 
 </html>

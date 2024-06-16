@@ -25,7 +25,7 @@ session_start();
     <h2>Pilih satu kotak</h2>
     <div>
         <div class="container">
-            <form action="subject.php" method="post" class="radio-tile-group">
+            <form action="main.php" method="post" class="radio-tile-group">
                 <div class="input-container">
                     <input type="submit" value="Laporan kehadiran" name="report" class='radio-tile'>
                 </div>
