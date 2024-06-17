@@ -171,7 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo ("<div class='link-wrapper'>");
         echo ("<p>Tambah</p>");
         echo ("<a href='more.php'>Lagi</a>");
-        echo ("</div>");
+        echo ("</div><a href='upload.php'>Muat Naik Data Ahli</a>");
     } elseif ($_SESSION['role'] == "Student") {
         echo ("<h2> Murid " . $_SESSION['name'] . "</h2>");
         echo ("<h2>Kelas: " . $_SESSION['class'] . "</h2>");

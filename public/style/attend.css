@@ -16,6 +16,19 @@
     color: var(--primary-color);
   }
 
+  a {
+    color: rgb(0, 110, 255);
+    font-size: 1.5rem;
+
+    &:focus {
+      outline: none;
+  }
+
+    &:hover {
+      color: rgb(0, 160, 255);
+  }
+  }
+
   footer {
     color: var(--primary-color);
     text-align: center;

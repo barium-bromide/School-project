@@ -76,7 +76,7 @@ loginButton.onclick = () => {
       student_id: ID_MURID.value,
       student_class: KELAS.innerText,
       role: JAWATAN.innerText == "Murid" ? "Student" : "Teacher",
-      username: USERNAME.value,
+      teacher_id: USERNAME.value,
       password: PASSWORD.value
     },
     function (data, status) {
@@ -89,10 +89,9 @@ loginButton.onclick = () => {
         }
       } else {
         alert("Request failed with status: " + status);
-        window.location.href = "index.php";
+        window.location.href = "login.php";
       }
     },
     "json"
   );
 }
-

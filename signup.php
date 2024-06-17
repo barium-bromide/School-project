@@ -13,7 +13,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kehadiran | Daftar murid</title>
     <link rel="stylesheet" href="public/style/login.css">
-    <script src="public/js/login.js" defer></script>
+    <script src="public/js/signup.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
@@ -22,13 +22,13 @@ session_start();
         <div class="loginbox">
             <h1>Daftar</h1>
             <div id="teacher-form" class="hide">
-                <h2>Username</h2>
+                <h2>Nama Guru</h2>
                 <input id="username" type="text" maxlength="15" placeholder="Enter username" required>
                 <h2>Kata Laluan</h2>
                 <input id="password" type="password" maxlength="20" placeholder="Enter password" required>
             </div>
             <div id="student-form">
-                <h2>ID Murid</h2>
+                <h2>Nama Murid</h2>
                 <input id="name" type="text" maxlength="15" placeholder="Enter your id" required>
                 <h2>Kelas</h2>
                 <div class="dropdown" id="class-dropdown">
@@ -65,6 +65,7 @@ session_start();
             </div>
             <input type="submit" id="loginbtn" value="Submit">
         </div>
+        <a href="index.php">Balik ke Laman utama</a>
     </div>
 </body>
 

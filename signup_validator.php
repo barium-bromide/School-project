@@ -8,30 +8,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         require_once 'dbh.inc.php';
-        require_once 'login_model.inc.php';
-        require_once 'login_contr.inc.php';
+        require_once 'signup_model.inc.php';
+        require_once 'signup_contr.inc.php';
         $_SESSION['role'] = $role;
         if ($role == "Student") {
-            $id = htmlspecialchars($_POST["student_id"]);
+            $student_name = htmlspecialchars($_POST["student_name"]);
             $class = htmlspecialchars($_POST["student_class"]);
 
-            if (is_input_empty_student($id, $class)) callBack(false, "empty name or class");
+            if (is_input_empty_student($student_name, $class)) callBack(false, "empty name or class");
 
-            $result = get_student($conn, $id, $class);
+            $result = get_student($conn, $student_name, $class);
             if (is_username_wrong($result)) callBack(false, "name or class not found");
 
-            $name = get_name_by_id($conn, $id);
+            $name = get_name_by_id($conn, $student_name);
             $_SESSION['name'] = $name['nama_murid'];
             $_SESSION['class'] = $class;
-            $_SESSION['id'] = $id;
+            $_SESSION['id'] = $student_name;
             callBack(true, "login sucess");
         } elseif ($role == "Teacher") {
-            $id_guru = htmlspecialchars($_POST["teacher_id"]);
+            $teacher_name = htmlspecialchars($_POST["teacher_name"]);
             $password = htmlspecialchars($_POST["password"]);
 
-            if (is_input_empty($id_guru, $password)) callBack(false, "empty id or password");
+            if (is_input_empty($teacher_name, $password)) callBack(false, "empty id or password");
 
-            $result = get_user($conn, $id_guru);
+            $result = get_user($conn, $teacher_name);
             if (is_username_wrong($result)) callBack(false, "id not found");
 
             if (!is_username_wrong($result) && is_password_wrong($password, $result['password_guru'])) callBack(false, "wrong password");

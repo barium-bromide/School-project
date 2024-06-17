@@ -15,6 +15,19 @@ body {
     --text: #07afd9;
 }
 
+a {
+    color: rgb(0, 110, 255);
+    font-size: 2rem;
+
+    &:focus {
+      outline: none;
+  }
+
+    &:hover {
+      color: rgb(0, 160, 255);
+  }
+  }
+
 .center {
     display: grid;
     place-items: center;
@@ -28,16 +41,6 @@ body {
     padding: 0.3rem;
     font-size: 2rem;
     color: var(--text);
-
-    & a {
-        text-decoration: underline;
-        line-height: 20px;
-        color: wheat;
-
-        &:hover {
-            color: white;
-        }
-    }
 
     & h1 {
         display: flex;
