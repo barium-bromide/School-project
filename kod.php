@@ -33,7 +33,7 @@ function generate_code()
 {
     $code = "";
     for ($i = 0; $i < 6; $i++) {
-        $code .= rand(0, 9);
+        $code .= rand(1, 9);
     }
 
     return $code;
