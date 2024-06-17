@@ -23,7 +23,7 @@
                 <h2>Masa kehadiran murid</h2>
                 <input type='datetime-local' id='date' name='more-attendance-time'>
                 <h2>Kehadiran murid</h2>
-                <input id="username" name="more-attendance" type="text" maxlength="3" placeholder="Hantar ya atau tidak" required>
+                <input id="username" name="more-attendance" type="text" maxlength="5" placeholder="Hantar ya atau tidak" required>
             </div>
             <input type="submit" id="loginbtn" value="Hantar">
         </form>

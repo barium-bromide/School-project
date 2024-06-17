@@ -17,7 +17,7 @@ function variable_empty_checker($variable)
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["edit"])) {
-        $edit = htmlspecialchars($_POST["edit"]);
+        $edit = strtolower(htmlspecialchars($_POST["edit"]));
         if ($edit != "ya" && $edit != "tidak") {
             header("Location: edit.php");
             die();
@@ -44,9 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } elseif (isset($_POST["more-name"]) && isset($_POST["more-attendance"]) && isset($_POST["more-attendance-time"]) && isset($_POST["more-class"])) {
         $moreName = htmlspecialchars($_POST["more-name"]);
-        $moreAttendance = htmlspecialchars($_POST["more-attendance"]);
+        $moreAttendance = strtolower(htmlspecialchars($_POST["more-attendance"]));
         $moreAttendanceTime = htmlspecialchars($_POST["more-attendance-time"]);
-        $moreClass = htmlspecialchars($_POST["more-class"]);
+        $moreClass = strtoupper(htmlspecialchars($_POST["more-class"]));
         if (empty($moreName) || empty($moreAttendance) || empty($moreAttendanceTime || empty($moreClass))) {
             header("Location: more.php");
             die();
@@ -114,6 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Kehadiran | Utama</title>
     <link rel="stylesheet" href="public/style/subject.css">
     <script src="public/js/subject.js" defer></script>
+    <script src="public/js/main.js"></script>
 </head>
 
 <body>
@@ -129,19 +130,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($result) foreach ($result as $classname) echo "<option>$classname</option>";
 
-        echo ("</select><br><label for='date'>Tarikh:</label><input type='date' id='date' name='attendance-date'><br>");
-        echo ("<input type='submit' id='date-submit' value='Kesah''>");
-        echo ("</form>");
-        echo ("<table>");
-        echo ("<caption>Kehadiran murid</caption>");
-        echo ("<tr>");
-        echo ("<th>Id</th>");
-        echo ("<th>Nama</th>");
-        echo ("<th>Masa</th>");
-        echo ("<th>Tarikh</th>");
-        echo ("<th>Kehadiran</th>");
-        echo ("<th>Edit</th>");
-        echo ("</tr>");
+        echo ("</select><br><label for='date'>Tarikh: </label><input type='date' id='date' name='attendance-date'><br><input type='submit' id='date-submit' value='Cari'></form><table id='table'>");
+        echo ("<label>Ubah saiz tulisan: </label>
+        <input type='button' value='Reset' onclick='changeFontSize(0)'>
+        <input type='button' value='+' onclick='changeFontSize(0.5)'>
+        <input type='button' value='-' onclick='changeFontSize(-0.5)'>
+        <button onclick='window.print()'>Cetak</button>
+        <caption>Kehadiran murid</caption>");
+        echo ("<tr><th>Id</th><th>Nama</th><th>Masa</th><th>Tarikh</th><th>Kehadiran</th><th>Edit</th></tr>");
         try {
             require_once 'dbh.inc.php';
             require_once 'attendance_report_model.inc.php';
