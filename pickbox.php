@@ -47,7 +47,5 @@ session_start();
             </form>
         </div>
     </div>
-    <footer>
-        Hakcipta &copy 2023-2024 : Kelab Komputer SMK Kota Kemuning
-    </footer>
+    <?php include 'footer.php'; ?>
 </body>

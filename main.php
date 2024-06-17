@@ -143,7 +143,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             require_once 'attendance_report_model.inc.php';
             $attendanceClass = isset($_SESSION['attendance-class']) ? $_SESSION['attendance-class'] : "";
             $attendanceDate = isset($_SESSION['attendance-date']) ? $_SESSION['attendance-date'] : "";
-            $result = get_kehadiran_by_class($conn, $attendanceClass, $attendanceDate);
+            if ($attendanceDate == "") {
+                $result = get_kehadiran_by_class($conn, $attendanceClass);
+            } else {
+                $result = get_kehadiran_by_class_and_date($conn, $attendanceClass, $attendanceDate);
+            }
+            $result = get_kehadiran_by_class_and_date($conn, $attendanceClass, $attendanceDate);
             if ($result) {
                 foreach ($result as $row) {
                     echo ("<tr>");

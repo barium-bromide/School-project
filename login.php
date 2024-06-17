@@ -62,6 +62,7 @@ session_start();
                 </ul>
             </div>
             <input type="submit" id="loginbtn" value="Submit">
+            <?php include 'footer.php'; ?>
         </div>
         <a href="index.php">Balik ke Laman utama</a>
     </div>

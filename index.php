@@ -12,6 +12,7 @@
     <h1>Selamat datang ke sistem kehadiran kelab komputer SMK Kota Kemuning</h1>
     <h2>Sila log masuk untuk meneruskan</h2>
     <a href="login.php">Log masuk</a>
+    <?php include 'footer.php'; ?>
 </body>
 
 </html>

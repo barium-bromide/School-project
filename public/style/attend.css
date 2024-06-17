@@ -29,11 +29,6 @@
   }
   }
 
-  footer {
-    color: var(--primary-color);
-    text-align: center;
-  }
-
   input[type="submit"] {
     color: var(--primary-color);
     font-size: 1.5rem;
