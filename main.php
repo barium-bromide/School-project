@@ -121,7 +121,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type='button' value='-' onclick='changeFontSize(-0.25)'>
             <button onclick='window.print()'>Cetak</button>
             <caption>Kehadiran murid</caption>
-            <tr><th>Id</th><th>Nama</th><th>Masa</th><th>Tarikh</th><th>Kehadiran</th><th>Edit</th></tr>");
+            <tr><th>Id</th><th>Nama</th><th>Masa</th><th>Tarikh</th><th>Kehadiran</th>");
+            if ($_SESSION['task'] == "Rekod kehadiran") echo ("<th>Edit</th>");
+            echo ("</tr>");
 
             $attendanceClass = isset($_SESSION['attendance-class']) ? $_SESSION['attendance-class'] : "";
             $attendanceDate = isset($_SESSION['attendance-date']) ? $_SESSION['attendance-date'] : "";
@@ -146,13 +148,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     } else {
                         echo ("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
                     }
-                    echo ("<td data-cell='edit'><form action='edit.php' method='post'><input type='hidden' name='data-to-edit' value=" . $row['id_murid'] . "#" . $tarikhSQL . "><input type='submit' value='Edit' class='fake-link'></form></td></tr>");
+                    if ($_SESSION['task'] == "Rekod kehadiran") echo ("<td data-cell='edit'><form action='edit.php' method='post'><input type='hidden' name='data-to-edit' value=" . $row['id_murid'] . "#" . $tarikhSQL . "><input type='submit' value='Edit' class='fake-link'></form></td></tr>");
                 }
             }
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
-        echo ("</table><div class='link-wrapper'><p>Tambah</p><a href='more.php'>Lagi</a></div><a href='upload.php'>Muat Naik Data Ahli</a>");
+        echo ("</table><div class='link-wrapper'>");
+        if ($_SESSION['task'] == "Rekod kehadiran") {
+            echo ("<p>Tambah</p><a href='more.php'>Lagi</a></div><a href='upload.php'>Muat Naik Data Ahli</a>");
+        } else {
+            echo ("</div>");
+        }
     } elseif ($_SESSION['role'] == "Student") {
         echo ("<h2> Murid " . $_SESSION['name'] . "</h2>");
         echo ("<h2>Kelas: " . $_SESSION['class'] . "</h2>");
