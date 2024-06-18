@@ -34,14 +34,14 @@ session_start();
                 <div class="dropdown" id="class-dropdown">
                     <?php
                     include 'dbh.inc.php';
-                    $query = "SELECT DISTINCT nama_kelas FROM kelas";
+                    $query = "SELECT nama_kelas FROM kelas";
                     $stmt = $conn->prepare($query);
                     $stmt->execute();
-                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     if ($result) {
                         echo "<div class='select'><span class='selected' name='class' id='class'></span><div class='caret'></div></div><ul class='menu'>";
-                        foreach ($result as $classname) echo "<li>$classname</li>";
+                        foreach ($result as $classname) echo "<li>" . $classname["nama_kelas"] . "</li>";
                         echo "</ul>";
                     } else {
                         echo "<div class='select'><span class='selected' name='class' id='class'>None</span><div class='caret'></div></div><ul class='menu'></ul>";

@@ -20,18 +20,22 @@ function is_input_empty_student(string $name, string $class)
     }
 }
 
-function is_username_wrong(bool | array $result)
+function is_class_exist(object $pdo, string $class)
 {
-    if (!$result) {
+    $result = get_class($pdo, $class);
+    if ($result == 0) {
+        return false;
+    } else {
         return true;
     }
-    return false;
 }
 
-function is_password_wrong(string $pwd, string $db_pwd)
+function create_student(object $pdo, string $name, string $class)
 {
-    if (!($pwd == $db_pwd)) {
-        return true;
-    }
-    return false;
+    set_student($pdo, $name, $class);
+}
+
+function create_teacher(object $pdo, string $name, string $password)
+{
+    set_teacher($pdo, $name, $password);
 }

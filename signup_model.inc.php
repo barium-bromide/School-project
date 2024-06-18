@@ -2,33 +2,29 @@
 
 declare(strict_types=1);
 
-function get_user(object $pdo, int $id_guru)
+function get_class(object $pdo, string $class)
 {
-    $query = "SELECT * FROM guru WHERE id_guru = :id_guru";
+    $query = "SELECT COUNT(*) FROM kelas WHERE nama_kelas = :class";
     $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':id_guru', $id_guru, PDO::PARAM_INT);
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result;
+    $stmt->execute([':class' => $class]);
+    $count = $stmt->fetchColumn();
+    return $count;
 }
 
-function get_student(object $pdo, int $id, string $class)
+function set_student(object $pdo, string $name, string $class)
 {
-    $query = "SELECT * FROM murid WHERE id_murid = :id AND id_kelas = (SELECT id_kelas FROM kelas WHERE nama_kelas = :class)";
+    $query = "INSERT INTO murid (nama_murid, id_kelas) VALUES (:name, (SELECT id_kelas FROM kelas WHERE nama_kelas = :class))";
     $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->bindParam(':name', $name);
     $stmt->bindParam(':class', $class);
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result;
 }
 
-function get_name_by_id(object $pdo, int $id)
+function set_teacher(object $pdo, string $name, string $password)
 {
-    $query = "SELECT nama_murid FROM murid WHERE id_murid = :id";
+    $query = "INSERT INTO guru (nama_guru, password_guru, id_kelas) VALUES (:name, :password, 1)";
     $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':password', $password);
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result;
 }
