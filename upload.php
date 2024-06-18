@@ -16,9 +16,12 @@ session_start();
 
     <form action='' method='post' enctype='multipart/form-data'>
         <h2>Sila Pilih Fail txt yang ingin diupload</h2>
+        <h2>Sila mengikut format ini</h2>
+        <h2>id|kelas|masa hadir|ada hadir</h2>
         <input type='file' name='file' required>
         <input type='submit' name='submit' value='Muat Naik'>
     </form>
+    <a href='main.php'>Pulang</a>
 
     <?php
     if (isset($_POST['submit'])) {
@@ -57,5 +60,17 @@ session_start();
     body {
         background-color: #1E2B35;
         color: #07afd9;
+    }
+
+    a {
+        color: rgb(0, 110, 255);
+
+        &:hover {
+            color: rgb(0, 160, 255);
+        }
+
+        &:focus {
+            outline: none;
+        }
     }
 </style>

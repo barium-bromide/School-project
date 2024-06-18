@@ -107,12 +107,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             require_once 'attendance_report_model.inc.php';
             echo ("<h2>Cikgu " . $_SESSION['username']);
             echo ("<form action='fetch-student-attendance.php' method='post'><label for='attendance-class'>Pilih kelas anda: </label><select class='dropdown' id='attendance-class' name='attendance-class'>");
-            $query = "SELECT DISTINCT nama_kelas FROM kelas";
+            $query = "SELECT nama_kelas FROM kelas";
             $stmt = $conn->prepare($query);
             $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            if ($result) foreach ($result as $classname) echo "<option>$classname</option>";
+            if ($result) foreach ($result as $classname) echo "<option>" . $classname["nama_kelas"] . "</option>";
 
             echo ("</select><br><label for='date'>Tarikh: </label><input type='date' id='date' name='attendance-date'><br><input type='submit' id='date-submit' value='Cari'></form><table id='table'>
             <label>Ubah saiz tulisan: </label>

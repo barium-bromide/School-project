@@ -22,7 +22,7 @@ function is_input_empty_student(string $name, string $class)
 
 function is_class_exist(object $pdo, string $class)
 {
-    $result = get_class($pdo, $class);
+    $result = get_kelas($pdo, $class);
     if ($result == 0) {
         return false;
     } else {

@@ -37,5 +37,6 @@ if (empty($_SESSION['data-to-edit'])) {
             </div>
             <input type="submit" id="loginbtn" value="Hantar">
         </form>
+        <a href='main.php'>Pulang</a>
     </div>
 </body>

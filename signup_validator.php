@@ -17,13 +17,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (is_input_empty_student($student_name, $class)) callBack(false, "empty name or class");
             if (!is_class_exist($conn, $class)) callBack(false, "class not exist");
             create_student($conn, $student_name, $class);
+            $_SESSION['name'] = $student_name;
+            $_SESSION['class'] = $class;
+            $id = get_id_by_name($conn, $student_name);
+            $_SESSION['id'] = $id['id_murid'];
             callBack(true, "login sucess");
         } elseif ($role == "Teacher") {
             $teacher_name = htmlspecialchars($_POST["teacher_name"]);
             $password = htmlspecialchars($_POST["password"]);
 
-            if (is_input_empty($teacher_name, $password)) callBack(false, "empty id or password");
+            if (is_input_empty($teacher_name, $password)) callBack(false, "empty name or password");
             create_teacher($conn, $teacher_name, $password);
+            $_SESSION['username'] = $teacher_name;
+            $_SESSION['password'] = $password;
             callBack(true, "login sucess");
         }
     } catch (PDOException $e) {
