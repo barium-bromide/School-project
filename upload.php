@@ -17,7 +17,7 @@ session_start();
     <form action='' method='post' enctype='multipart/form-data'>
         <h2>Sila Pilih Fail txt yang ingin diupload</h2>
         <h2>Sila mengikut format ini</h2>
-        <h2>id|kelas|masa hadir|ada hadir</h2>
+        <h2>id_murid|masa hadir|ada hadir</h2>
         <input type='file' name='file' required>
         <input type='submit' name='submit' value='Muat Naik'>
     </form>
@@ -37,9 +37,8 @@ session_start();
                     $line = fgets($file);
                     $data = explode("|", $line);
                     $id = $data[0];
-                    $class = $data[1];
-                    $attendanceTime = $data[2];
-                    $attendance = $data[3];
+                    $attendanceTime = $data[1];
+                    $attendance = $data[2];
                     insert_kehadiran_of_added($conn, $id, $attendanceTime, $attendance);
                 }
                 fclose($file);

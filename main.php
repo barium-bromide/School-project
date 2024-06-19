@@ -132,8 +132,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $result = get_kehadiran_by_class_and_date($conn, $attendanceClass, $attendanceDate);
             }
+            $count = 0;
+            $total = 0;
             if ($result) {
                 foreach ($result as $row) {
+                    $total++;
                     echo ("<tr>");
                     $dt = new DateTime($row['masa_hadir']);
                     $masa = $dt->format("H:i:s");
@@ -144,6 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo ("<td data-cell='time'>" . $masa . "</td>");
                     echo ("<td data-cell='date'>" . $tarikh . "</td>");
                     if ($row['ada_hadir'] == 1) {
+                        $count++;
                         echo ("<td data-cell='attendance'><div><span class='yes'>✔</span><span class='neutral'>X</span></div></td>");
                     } else {
                         echo ("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
@@ -154,12 +158,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
-        echo ("</table><div class='link-wrapper'>");
-        if ($_SESSION['task'] == "Rekod kehadiran") {
-            echo ("<p>Tambah</p><a href='more.php'>Lagi</a></div><a href='upload.php'>Muat Naik Data Ahli</a>");
-        } else {
-            echo ("</div>");
+        echo ("</table>");
+        if ($_SESSION['task'] != "Rekod kehadiran") {
+            echo "<h2>" . $count . " / " . $total . " kehadiran </h2>";
+            if ($total != 0) {
+                $percentage = $count / $total * 100;
+                $percentage_length = strlen($percentage);
+                echo "<div class='bar' data-label='$percentage%' style='--percentage: $percentage; --percentage-length: $percentage_length;'><span class='percentage-bar' style='--percentage: $percentage;'></span></div>";
+            } else {
+                echo "<h2> Tiada kehadiran </h2>";
+            };
         }
+        if ($_SESSION['task'] == "Rekod kehadiran") echo ("<div class='link-wrapper'><p>Tambah</p><a href='more.php'>Lagi</a></div><a href='upload.php'>Muat Naik Data Ahli</a></div>");
     } elseif ($_SESSION['role'] == "Student") {
         echo ("<h2> Murid " . $_SESSION['name'] . "</h2>");
         echo ("<h2>Kelas: " . $_SESSION['class'] . "</h2>");
@@ -171,14 +181,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 require_once 'dbh.inc.php';
                 require_once 'attendance_report_model.inc.php';
                 $result = get_kehadiran($conn, $_SESSION['id']);
+                $count = 0;
+                $total = 0;
                 if ($result) {
                     foreach ($result as $row) {
+                        $total++;
                         echo ("<tr>");
                         $dt = new DateTime($row['masa_hadir']);
                         $masa = $dt->format("H:i:s");
                         $tarikh = $dt->format("d/m/Y");
                         echo ("<td data-cell='time'>" . $masa . "</td><td data-cell='date'>" . $tarikh . "</td>");
                         if ($row['ada_hadir'] == 1) {
+                            $count++;
                             echo ("<td data-cell='attendance'><div><span class='yes'>✔</span><span class='neutral'>X</span></div></td>");
                         } else {
                             echo ("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
@@ -190,6 +204,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die("Query failed: " . $e->getMessage());
             }
             echo ("</table>");
+            echo "<h2>" . $count . " / " . $total . " kehadiran </h2>";
+            if ($total != 0) {
+                echo "<h2>" . ($count / $total) * 100 . "% kehadiran</h2>";
+            } else {
+                echo "<h2> Tiada kehadiran </h2>";
+            };
         }
     }
     ?>
