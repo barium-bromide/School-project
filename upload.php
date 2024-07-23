@@ -21,7 +21,7 @@ session_start();
         <input type='file' name='file' required>
         <input type='submit' name='submit' value='Muat Naik'>
     </form>
-    <a href='main.php'>Pulang</a>
+    <a href='main.php'>Kembali</a>
 
     <?php
     if (isset($_POST['submit'])) {

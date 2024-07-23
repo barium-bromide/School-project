@@ -27,6 +27,6 @@
             </div>
             <input type="submit" id="loginbtn" value="Hantar">
         </form>
-        <a href='main.php'>Pulang</a>
+        <a href='main.php'>Kembali</a>
     </div>
 </body>

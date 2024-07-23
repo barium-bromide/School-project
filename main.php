@@ -214,7 +214,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     ?>
     <form action="back.php" method="post">
-        <input type='submit' id='date-submit' value='Pulang'>
+        <input type='submit' id='date-submit' value='Kembali'>
     </form>
 </body>
 

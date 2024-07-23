@@ -40,6 +40,14 @@ session_start();
                     ?>
                 </div>
             </form>
+            <?php
+            if ($_SESSION['role'] == "Teacher") {
+                echo ('<form action="getkod.php" method="post" class="radio-tile-group">
+                <div class="input-container">
+                    <input type="submit" value="Ambil kod" name="kod" class="radio-tile">
+                </div>
+            </form>');
+            } ?>
             <form action="logout.php" method="post" class="radio-tile-group">
                 <div class="input-container">
                     <input type="submit" value="Daftar keluar" name="logout" class='radio-tile'>
