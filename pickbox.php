@@ -1,7 +1,9 @@
 <?php
 session_start();
 ?>
-
+<script>
+    alert("Selamat datang.")
+</script>
 <!DOCTYPE html>
 <html lang="en">
 

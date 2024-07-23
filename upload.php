@@ -1,4 +1,5 @@
 <?php
+#memulakan fungsi session
 session_start();
 ?>
 
@@ -12,8 +13,9 @@ session_start();
 </head>
 
 <body>
+    <!-- Tajuk laman -->
     <h1>Muat Naik Data Ahli (*.txt)</h1>
-
+    <!-- Borang untuk memuat naik fail  -->
     <form action='' method='post' enctype='multipart/form-data'>
         <h2>Sila Pilih Fail txt yang ingin diupload</h2>
         <h2>Sila mengikut format ini</h2>
@@ -22,13 +24,14 @@ session_start();
         <input type='submit' name='submit' value='Muat Naik'>
     </form>
     <a href='main.php'>Kembali</a>
-
+    <!-- bahagian memproses data yang dimuat naik -->
     <?php
     if (isset($_POST['submit'])) {
         $fileName = $_FILES['file']['name'];
         $fileTmpName = $_FILES['file']['tmp_name'];
         $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
         try {
+            #memanggil fail connection dan attendance_report_model.inc.php
             include 'dbh.inc.php';
             include 'attendance_report_model.inc.php';
             if ($_FILES['file']['size'] > 0 and $fileType == "txt") {

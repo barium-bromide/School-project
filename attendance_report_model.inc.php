@@ -14,7 +14,10 @@ function get_kehadiran(object $pdo, int $id)
 
 function get_kehadiran_by_class_and_date(object $pdo, string $class, string $date)
 {
-    $query = "SELECT murid.nama_murid, murid.id_murid, kehadiran.masa_hadir, kehadiran.ada_hadir FROM kehadiran JOIN murid ON kehadiran.id_murid = murid.id_murid JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE kelas.nama_kelas = :class AND DATE(kehadiran.masa_hadir) = :date";
+    $query = "SELECT murid.nama_murid, murid.id_murid, kehadiran.masa_hadir, kehadiran.ada_hadir 
+    FROM kehadiran JOIN murid ON kehadiran.id_murid = murid.id_murid 
+    JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE kelas.nama_kelas = :class 
+    AND DATE(kehadiran.masa_hadir) = :date";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':class', $class);
     $stmt->bindParam(':date', $date);
@@ -25,7 +28,9 @@ function get_kehadiran_by_class_and_date(object $pdo, string $class, string $dat
 
 function get_kehadiran_by_class(object $pdo, string $class)
 {
-    $query = "SELECT murid.nama_murid, murid.id_murid, kehadiran.masa_hadir, kehadiran.ada_hadir FROM kehadiran JOIN murid ON kehadiran.id_murid = murid.id_murid JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE kelas.nama_kelas = :class";
+    $query = "SELECT murid.nama_murid, murid.id_murid, kehadiran.masa_hadir, kehadiran.ada_hadir 
+    FROM kehadiran JOIN murid ON kehadiran.id_murid = murid.id_murid 
+    JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE kelas.nama_kelas = :class";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':class', $class);
     $stmt->execute();

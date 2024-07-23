@@ -106,15 +106,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             require_once 'dbh.inc.php';
             require_once 'attendance_report_model.inc.php';
             echo ("<h2>Cikgu " . $_SESSION['username']);
-            echo ("<form action='fetch-student-attendance.php' method='post'><label for='attendance-class'>Pilih kelas anda: </label><select class='dropdown' id='attendance-class' name='attendance-class'>");
+            echo ("<form action='fetch-student-attendance.php' method='post'>
+            <label for='attendance-class'>Pilih kelas anda: </label>
+            <select class='dropdown' id='attendance-class' name='attendance-class'>");
             $query = "SELECT nama_kelas FROM kelas";
             $stmt = $conn->prepare($query);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if ($result) foreach ($result as $classname) echo "<option>" . $classname["nama_kelas"] . "</option>";
-
-            echo ("</select><br><label for='date'>Tarikh: </label><input type='date' id='date' name='attendance-date'><br><input type='submit' id='date-submit' value='Cari'></form><table id='table'>
+            if ($result) foreach ($result as $classname)
+                echo "<option>" . $classname["nama_kelas"] . "</option>";
+            echo ("</select><br><label for='date'>Tarikh: </label>
+            <input type='date' id='date' name='attendance-date'><br>
+            <input type='submit' id='date-submit' value='Cari'></form>
+            <table id='table'>
             <label>Ubah saiz tulisan: </label>
             <input type='button' value='Reset' onclick='changeFontSize(0)'>
             <input type='button' value='+' onclick='changeFontSize(0.25)'>
@@ -148,9 +152,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo ("<td data-cell='date'>" . $tarikh . "</td>");
                     if ($row['ada_hadir'] == 1) {
                         $count++;
-                        echo ("<td data-cell='attendance'><div><span class='yes'>✔</span><span class='neutral'>X</span></div></td>");
+                        echo ("<td data-cell='attendance'><div><span class='yes'>✔</span>
+                        <span class='neutral'>X</span></div></td>");
                     } else {
-                        echo ("<td data-cell='attendance'><div><span class='neutral'>✔</span><span class='no'>X</span></div></td>");
+                        echo ("<td data-cell='attendance'><div><span class='neutral'>✔</span>
+                        <span class='no'>X</span></div></td>");
                     }
                     if ($_SESSION['task'] == "Rekod kehadiran") echo ("<td data-cell='edit'><form action='edit.php' method='post'><input type='hidden' name='data-to-edit' value=" . $row['id_murid'] . "#" . $tarikhSQL . "><input type='submit' value='Edit' class='fake-link'></form></td></tr>");
                 }
