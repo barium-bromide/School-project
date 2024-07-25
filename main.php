@@ -103,8 +103,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     if ($_SESSION['role'] == "Teacher") {
         try {
-            require_once 'dbh.inc.php';
-            require_once 'attendance_report_model.inc.php';
+            require_once 'dbh.inc.php'; //memanggil fail connection
+            require_once 'attendance_report_model.inc.php'; // memanggil fail attendance_report_model.inc.php
+            //papar paparan Laporan
             echo ("<h2>Cikgu " . $_SESSION['username']);
             echo ("<form action='fetch-student-attendance.php' method='post'>
             <label for='attendance-class'>Pilih kelas anda: </label>
