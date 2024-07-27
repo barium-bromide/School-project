@@ -82,6 +82,7 @@ loginButton.onclick = () => {
     function (data, status) {
       if (status === "success") {
         if (data.success) {
+          alert("Berjaya masuk");
           window.location.href = "pickbox.php";
         } else {
           // maybe can use html to display
