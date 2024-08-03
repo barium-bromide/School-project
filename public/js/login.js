@@ -85,7 +85,6 @@ loginButton.onclick = () => {
           alert("Berjaya masuk");
           window.location.href = "pickbox.php";
         } else {
-          // maybe can use html to display
           alert(data.message);
         }
       } else {

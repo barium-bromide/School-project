@@ -4,7 +4,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $role = htmlspecialchars($_POST["role"]);
 
-    if (empty($role)) callBack(false, "empty role");
+    if (empty($role)) callBack(false, "sila pilih jawatan");
 
     try {
         require_once 'dbh.inc.php';
@@ -15,10 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id = htmlspecialchars($_POST["student_id"]);
             $class = htmlspecialchars($_POST["student_class"]);
 
-            if (is_input_empty_student($id, $class)) callBack(false, "empty name or class");
-
+            if (is_input_empty_student($id, $class)) callBack(false, "sila masukkan id dan kelas");
+            if (strlen($id) > 9) callBack(false, "id mesti mempunyai 9 dan ke bawah digit sahaja");
             $result = get_student($conn, $id, $class);
-            if (is_username_wrong($result)) callBack(false, "name or class not found");
+            if (is_username_wrong($result)) callBack(false, "id dan kelas tak ada di database");
 
             $name = get_name_by_id($conn, $id);
             $_SESSION['name'] = $name['nama_murid'];
@@ -29,23 +29,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id_guru = htmlspecialchars($_POST["teacher_id"]);
             $password = htmlspecialchars($_POST["password"]);
 
-            if (is_input_empty($id_guru, $password)) callBack(false, "empty id or password");
+            if (is_input_empty($id_guru, $password)) callBack(false, "sila masukkan id dan kata laluan");
+            if (strlen($id_guru) > 9) callBack(false, "id mesti mempunyai 9 dan ke bawah digit sahaja");
 
             $result = get_user($conn, $id_guru);
-            if (is_username_wrong($result)) callBack(false, "id not found");
+            if (is_username_wrong($result)) callBack(false, "id tak ada di database");
 
-            if (!is_username_wrong($result) && is_password_wrong($password, $result['password_guru'])) callBack(false, "wrong password");
+            if (!is_username_wrong($result) && is_password_wrong($password, $result['password_guru'])) callBack(false, "kata laluan salah");
 
             $_SESSION['username'] = $result['nama_guru'];
             $_SESSION['password'] = $password;
-            callBack(true, "login sucess");
+            callBack(true, "login berjaya");
         }
     } catch (PDOException $e) {
         die("Query failed: " . $e->getMessage());
     }
-    callBack(false, "end of condition");
+    callBack(false, "syarat habis");
 } else {
-    callBack(false, "not allowed?(not post)");
+    callBack(false, "jangan guna get request, sila guna post request");
 }
 
 function callBack($sucess, $message)
