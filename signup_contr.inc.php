@@ -30,12 +30,12 @@ function is_class_exist(object $pdo, string $class)
     }
 }
 
-function create_student(object $pdo, string $name, string $class)
+function create_student(object $pdo, string $name, string $class, string $KP)
 {
-    set_student($pdo, $name, $class);
+    set_student($pdo, $name, $class, $KP);
 }
 
-function create_teacher(object $pdo, string $name, string $password)
+function create_teacher(object $pdo, string $name, string $password, string $KP)
 {
-    set_teacher($pdo, $name, $password);
+    set_teacher($pdo, $name, $password, $KP);
 }

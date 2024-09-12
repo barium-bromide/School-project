@@ -22,14 +22,14 @@ session_start();
         <div class="loginbox">
             <h1>Masuk</h1>
             <div id="teacher-form" class="hide">
-                <h2>ID Guru</h2>
-                <input id="username" type="text" maxlength="15" placeholder="Masukkan id anda" required>
+                <h2>Nombor KP Guru</h2>
+                <input id="username" type="text" maxlength="15" placeholder="Masukkan nombor KP anda" required>
                 <h2>Kata Laluan</h2>
                 <input id="password" type="password" maxlength="20" placeholder="Masukkan kata laluan anda" required>
             </div>
             <div id="student-form">
-                <h2>ID Murid</h2>
-                <input id="name" type="text" maxlength="15" placeholder="Masukkan id anda" required>
+                <h2>Nombor KP Murid</h2>
+                <input id="name" type="text" maxlength="15" placeholder="Masukkan nombor KP anda" required>
                 <h2>Kelas</h2>
                 <div class="dropdown" id="class-dropdown">
                     <?php

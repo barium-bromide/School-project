@@ -11,19 +11,21 @@ function get_kelas(object $pdo, string $class)
     return $count;
 }
 
-function set_student(object $pdo, string $name, string $class)
+function set_student(object $pdo, string $name, string $class, string $KP)
 {
-    $query = "INSERT INTO murid (nama_murid, id_kelas) VALUES (:name, (SELECT id_kelas FROM kelas WHERE nama_kelas = :class))";
+    $query = "INSERT INTO murid (nokp_murid, nama_murid, id_kelas) VALUES (:kp, :name, (SELECT id_kelas FROM kelas WHERE nama_kelas = :class))";
     $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':kp', $KP);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':class', $class);
     $stmt->execute();
 }
 
-function set_teacher(object $pdo, string $name, string $password)
+function set_teacher(object $pdo, string $name, string $password, string $KP)
 {
-    $query = "INSERT INTO guru (nama_guru, password_guru, id_kelas) VALUES (:name, :password, 3)";
+    $query = "INSERT INTO guru (nokp_guru, nama_guru, password_guru, id_kelas) VALUES (:kp, :name, :password, 3)";
     $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':kp', $KP);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':password', $password);
     $stmt->execute();

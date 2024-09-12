@@ -8,6 +8,8 @@ const loginForm = document.getElementById("login-form");
 const loginButton = document.getElementById("loginbtn");
 const teacherForm = document.getElementById("teacher-form");
 const studentForm = document.getElementById("student-form");
+const KP_murid = document.getElementById("KP_murid");
+const KP_guru = document.getElementById("KP_guru");
 
 dropdowns.forEach((dropdown) => {
     const select = dropdown.querySelector(".select");
@@ -44,6 +46,7 @@ dropdowns.forEach((dropdown) => {
 loginButton.onclick = () => {
     $.post("signup_validator.php",
         {
+            KP: JAWATAN.innerText == "Murid" ? KP_murid.value : KP_guru.value,
             student_name: ID_MURID.value,
             student_class: KELAS.innerText,
             role: JAWATAN.innerText == "Murid" ? "Student" : "Teacher",

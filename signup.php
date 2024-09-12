@@ -22,12 +22,16 @@ session_start();
         <div class="loginbox">
             <h1>Daftar Baharu</h1>
             <div id="teacher-form" class="hide">
+                <h2>Nombor KP Guru</h2>
+                <input id="KP_guru" type="text" maxlength="15" placeholder="Masukkan nombor KP anda" required>
                 <h2>Nama Guru</h2>
                 <input id="username" type="text" maxlength="15" placeholder="Masukkan nama anda" required>
                 <h2>Kata Laluan</h2>
                 <input id="password" type="password" maxlength="20" placeholder="Masukkan kata laluan anda" required>
             </div>
             <div id="student-form">
+                <h2>Nombor KP Murid</h2>
+                <input id="KP_murid" type="text" maxlength="15" placeholder="Masukkan nombor KP anda" required>
                 <h2>Nama Murid</h2>
                 <input id="name" type="text" maxlength="15" placeholder="Masukkan nama anda" required>
                 <h2>Kelas</h2>
