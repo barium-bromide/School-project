@@ -211,3 +211,13 @@ a {
 .hide {
     display: none !important;
 }
+
+input[type="datetime-local"] {
+    background-color: #2a2f3b;
+    padding: .5rem;
+    border: 0.1rem #323741 solid;
+    border-radius: 0.5em;
+    cursor: pointer;
+    font-size: .8em;
+    color: white;
+}

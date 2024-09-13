@@ -304,3 +304,43 @@ form {
         color: rgb(0, 160, 255);
     }
 }
+
+input[type="date"] {
+    background-color: #2a2f3b;
+    padding: .5rem;
+    border: 0.1rem #323741 solid;
+    border-radius: 0.5em;
+    cursor: pointer;
+    font-size: 1rem;
+    color: white;
+}
+
+input[type="text"]{
+    height: 40px;
+    width: 25ch;
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline: none;
+    font-size: 16px;
+    color: white;
+
+    &::placeholder {
+        color: wheat;
+    }
+}
+
+button, input[type="button"] {
+    border: none;
+    padding: .1rem .5rem;
+    margin: 0 .1rem;
+    outline-color: transparent;
+    background: var(--primary-color);
+    font-size: 18px;
+    border-radius: 20px;
+
+    &:hover {
+        cursor: pointer;
+        background: #08c0ee;
+    }
+}

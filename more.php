@@ -16,7 +16,7 @@
         <form action="main.php" method="post" class="loginbox">
             <h1>Tambah lagi</h1>
             <div id="teacher-form">
-                <h2>ID Murid</h2>
+                <h2>Nombor KP Murid</h2>
                 <input id="username" name="more-name" type="text" maxlength="15" placeholder="Masukkan nama murid" required>
                 <h2>Kelas Murid</h2>
                 <input id="username" name="more-class" type="text" maxlength="15" placeholder="Masukkan kelas murid" required>

@@ -19,7 +19,7 @@ session_start();
     <form action='' method='post' enctype='multipart/form-data'>
         <h2>Sila Pilih Fail txt yang ingin diupload</h2>
         <h2>Sila mengikut format ini</h2>
-        <h2>id_murid|masa hadir|ada hadir</h2>
+        <h2>(nombor KP murid)|(masa hadir)|(ada hadir)</h2>
         <input type='file' name='file' required>
         <input type='submit' name='submit' value='Muat Naik'>
     </form>

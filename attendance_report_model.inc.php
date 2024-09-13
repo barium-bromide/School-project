@@ -2,9 +2,22 @@
 
 declare(strict_types=1);
 
+function get_all_kehadiran(object $pdo)
+{
+    $query = "SELECT murid.nama_murid, murid.nokp_murid, kehadiran.masa_hadir, kehadiran.ada_hadir, 
+    kelas.nama_kelas FROM kehadiran JOIN murid ON kehadiran.nokp_murid = murid.nokp_murid
+    JOIN kelas ON murid.id_kelas = kelas.id_kelas";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
 function get_kehadiran(object $pdo, string $id)
 {
-    $query = "SELECT * FROM kehadiran WHERE nokp_murid = :id";
+    $query = "SELECT murid.nama_murid, murid.nokp_murid, kehadiran.masa_hadir, kehadiran.ada_hadir,
+    kelas.nama_kelas FROM kehadiran JOIN murid ON kehadiran.nokp_murid = murid.nokp_murid
+    JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE murid.nokp_murid = :id";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':id', $id);
     $stmt->execute();
@@ -12,12 +25,36 @@ function get_kehadiran(object $pdo, string $id)
     return $result;
 }
 
+function get_kehadiran_with_date(object $pdo, string $KP, string $date)
+{
+    $query = "SELECT murid.nama_murid, murid.nokp_murid, kehadiran.masa_hadir, kehadiran.ada_hadir,
+    kelas.nama_kelas FROM kehadiran JOIN murid ON kehadiran.nokp_murid = murid.nokp_murid
+    JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE murid.nokp_murid = :KP AND DATE(kehadiran.masa_hadir) = :date";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':KP', $KP);
+    $stmt->bindParam(':date', $date);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function get_kehadiran_by_date(object $pdo, string $date)
+{
+    $query = "SELECT murid.nama_murid, murid.nokp_murid, kehadiran.masa_hadir, kehadiran.ada_hadir,
+    kelas.nama_kelas FROM kehadiran JOIN murid ON kehadiran.nokp_murid = murid.nokp_murid
+    JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE DATE(kehadiran.masa_hadir) = :date";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':date', $date);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
 function get_kehadiran_by_class_and_date(object $pdo, string $class, string $date)
 {
-    $query = "SELECT murid.nama_murid, murid.nokp_murid, kehadiran.masa_hadir, kehadiran.ada_hadir 
-    FROM kehadiran JOIN murid ON kehadiran.nokp_murid = murid.nokp_murid 
-    JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE kelas.nama_kelas = :class 
-    AND DATE(kehadiran.masa_hadir) = :date";
+    $query = "SELECT murid.nama_murid, murid.nokp_murid, kehadiran.masa_hadir, kehadiran.ada_hadir,
+    kelas.nama_kelas FROM kehadiran JOIN murid ON kehadiran.nokp_murid = murid.nokp_murid
+    JOIN kelas ON murid.id_kelas = kelas.id_kelas WHERE kelas.nama_kelas = :class AND DATE(kehadiran.masa_hadir) = :date";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':class', $class);
     $stmt->bindParam(':date', $date);

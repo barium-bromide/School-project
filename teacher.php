@@ -4,17 +4,9 @@ try {
     require_once 'attendance_report_model.inc.php'; // memanggil fail attendance_report_model.inc.php
     //papar paparan Laporan
     echo ("<h2>Cikgu " . $_SESSION['username']);
-    echo ("<form action='fetch-student-attendance.php' method='post'>
-    <label for='attendance-class'>Pilih kelas anda: </label>
-    <select class='dropdown' id='attendance-class' name='attendance-class'>");
-    $query = "SELECT nama_kelas FROM kelas";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($result) foreach ($result as $classname)
-        echo "<option>" . $classname["nama_kelas"] . "</option>";
+    echo ("<form action='fetch-student-attendance.php' method='post'>");
     echo ("
-    </select><br><label for='attendance-kp'>Kad pengenalan murid: </label>
+    <label for='attendance-kp'>Kad pengenalan murid: </label>
     <input name='attendance-kp' type='text' maxlength='15' placeholder='Masukkan nombor KP murid'>
     <br><label for='date'>Tarikh: </label>
     <input type='date' id='date' name='attendance-date'><br>
@@ -26,18 +18,27 @@ try {
     <input type='button' value='-' onclick='changeFontSize(-0.25)'>
     <button onclick='window.print()'>Cetak</button>
     <caption>Kehadiran murid</caption>
-    <tr><th>KP</th><th>Nama</th><th>Masa</th><th>Tarikh</th><th>Kehadiran</th>");
-    if ($_SESSION['task'] == "Rekod kehadiran") echo ("<th>Edit</th>");
-    echo ("</tr>");
+    <tr><th>KP</th><th>Nama</th><th>Kelas</th><th>Masa</th><th>Tarikh</th><th>Kehadiran</th><th>Edit</th></tr>");
 
     $attendanceClass = isset($_SESSION['attendance-class']) ? $_SESSION['attendance-class'] : "";
     $attendanceDate = isset($_SESSION['attendance-date']) ? $_SESSION['attendance-date'] : "";
     $attendanceKP = isset($_SESSION['attendance-kp']) ? $_SESSION['attendance-kp'] : "";
-    if ($attendanceDate == "") {
-        $result = get_kehadiran_by_class($conn, $attendanceClass);
+    if ($attendanceKP == "") {
+        if ($attendanceDate == "") {
+            $result = get_all_kehadiran($conn);
+        } else {
+            $result = get_kehadiran_by_date($conn, $attendanceDate);
+        }
     } else {
-        $result = get_kehadiran_by_class_and_date($conn, $attendanceClass, $attendanceDate);
+        if ($attendanceDate == "") {
+            $result = get_kehadiran($conn, $attendanceKP);
+        } else {
+            $result = get_kehadiran_with_date($conn, $attendanceKP, $attendanceDate);
+        }
     }
+    unset($_SESSION['attendance-class']);
+    unset($_SESSION['attendance-date']);
+    unset($_SESSION['attendance-kp']);
     $count = 0;
     $total = 0;
     if ($result) {
@@ -50,6 +51,7 @@ try {
             $tarikhSQL = $dt->format("Y-m-d");
             echo ("<td>" . $row['nokp_murid'] . "</td>");
             echo ("<td>" . $row['nama_murid'] . "</td>");
+            echo ("<td>" . $row['nama_kelas'] . "</td>");
             echo ("<td data-cell='time'>" . $masa . "</td>");
             echo ("<td data-cell='date'>" . $tarikh . "</td>");
             if ($row['ada_hadir'] == 1) {
@@ -58,7 +60,7 @@ try {
             } else {
                 echo ("<td data-cell='attendance'><div><span class='no'>X</span></div></td>");
             }
-            if ($_SESSION['task'] == "Rekod kehadiran") echo ("<td data-cell='edit'><form action='edit.php' method='post'><input type='hidden' name='data-to-edit' value=" . $row['nokp_murid'] . "#" . $tarikhSQL . "><input type='submit' value='Edit' class='fake-link'></form></td></tr>");
+            echo ("<td data-cell='edit'><form action='edit.php' method='post'><input type='hidden' name='data-to-edit' value=" . $row['nokp_murid'] . "#" . $tarikhSQL . "><input type='submit' value='Edit' class='fake-link'></form></td></tr>");
         }
     }
 } catch (PDOException $e) {
