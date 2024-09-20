@@ -1,5 +1,11 @@
 <?php
-session_start();
+try {
+    require_once 'dbh.inc.php';
+    require_once 'kod.php';
+    $code = get_code($conn);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +27,11 @@ session_start();
         echo ("<h1>Selamat sejahtera, Murid " . $_SESSION['name'] . "</h1>");
     }
     ?>
+    <div>
+        <h2>Code</h2>
+        <input id="kod" style="padding:0.5rem;font-size:1rem;border:none;outline:none;background-color:#2a2f3b;color:white;" type="text" value="<?php echo $code ?>" onkeydown="return false;">
+        <button id="button" style="padding:0.3rem;background-color:#07afd9;font-size:1rem;border:none;outline:none;border-radius:0.5rem;cursor:pointer;" onclick="this.style.backgroundColor='#08c0ee';" onmouseleave="this.style.backgroundColor='#07afd9'" onmouseup="this.style.backgroundColor='#07afd9'">Copy</button>
+    </div>
     <h2>Pilih satu kotak</h2>
     <div>
         <div class="container">
@@ -39,14 +50,6 @@ session_start();
                     ?>
                 </div>
             </form>
-            <?php
-            if ($_SESSION['role'] == "Teacher") {
-                echo ('<form action="getkod.php" method="post" class="radio-tile-group">
-                <div class="input-container">
-                    <input type="submit" value="Ambil kod" name="kod" class="radio-tile">
-                </div>
-            </form>');
-            } ?>
             <form action="logout.php" method="post" class="radio-tile-group">
                 <div class="input-container">
                     <input type="submit" value="Daftar keluar" name="logout" class='radio-tile'>
@@ -56,3 +59,12 @@ session_start();
     </div>
     <?php include 'footer.php'; ?>
 </body>
+
+<script>
+    button = document.getElementById("button");
+    button.onclick = () => {
+        kod = document.getElementById("kod");
+        kod.select();
+        document.execCommand("copy");
+    }
+</script>

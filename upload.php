@@ -42,7 +42,16 @@ session_start();
                     $id = $data[0];
                     $attendanceTime = $data[1];
                     $attendance = $data[2];
-                    insert_kehadiran_of_added($conn, $id, $attendanceTime, $attendance);
+                    $attendanceDate = substr($attendanceTime, 0, 10);
+                    $result = get_kehadiran_with_date($conn, $id, $attendanceDate);
+                    foreach ($result as $row) {
+                        echo $row;
+                    }
+                    if ($result) {
+                        edit_kehadiran_by_id_and_date($conn, $id, $attendanceDate, $attendance);
+                    } else {
+                        insert_kehadiran_of_added($conn, $id, $attendanceTime, $attendance);
+                    }
                 }
                 fclose($file);
                 echo ("<script>alert('import fail data selesai');window.location.href='main.php';</script>");
